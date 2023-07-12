@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: post
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/post
+
+
+server:
+  port: 8081
+
+itireland:
+  openapi:
+    dev-url: http://localhost:8081
+    prod-url: https://itireland.herokuapp.com
