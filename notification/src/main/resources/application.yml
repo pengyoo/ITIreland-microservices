@@ -1,11 +1,10 @@
 spring:
   application:
-    name: user
+    name: notification
   datasource:
-    url: jdbc:postgresql://localhost:5432/user
+    url: jdbc:postgresql://localhost:5432/notification
     username: itireland
     password: 123
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,8 +15,7 @@ spring:
     show-sql: true
 
 server:
-  port: 8083
-
+  port: 8082
 
 eureka:
   client:
@@ -39,7 +37,6 @@ logging:
 
 itireland:
   openapi:
-    dev-url: http://localhost:8083
+    dev-url: http://localhost:8082
     prod-url: https://itireland.herokuapp.com
-
 

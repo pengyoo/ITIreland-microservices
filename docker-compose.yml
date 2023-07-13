@@ -39,6 +39,11 @@ services:
 #      - MONGO_INITDB_ROOT_USERNAME=itireland
 #      - MONGO_INITDB_ROOT_PASSWORD=123
     image: mongo
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - 9411:9411
 networks:
   postgres:
     driver: bridge
