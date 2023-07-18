@@ -5,8 +5,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import works.itireland.clients.post.PostRequest;
+import works.itireland.clients.post.PostResponse;
 import works.itireland.post.domain.Post;
-import works.itireland.user.UserClient;
+import works.itireland.clients.user.UserClient;
 
 import java.util.function.Function;
 
@@ -17,6 +19,7 @@ public class PostServiceImpl implements PostService{
 
     private final UserClient userClient;
     private final PostRepository postRepository;
+
     @Override
     public PostResponse insert(PostRequest postRequest) {
         Post post = new Post();

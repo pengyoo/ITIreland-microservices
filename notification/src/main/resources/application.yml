@@ -13,6 +13,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  rabbitmq:
+    addresses: localhost:5672
 
 server:
   port: 8082
@@ -40,3 +42,11 @@ itireland:
     dev-url: http://localhost:8082
     prod-url: https://itireland.herokuapp.com
 
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key

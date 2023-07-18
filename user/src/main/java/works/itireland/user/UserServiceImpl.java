@@ -2,22 +2,30 @@ package works.itireland.user;
 
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import works.itireland.notification.NotificationClient;
-import works.itireland.notification.NotificationRequest;
+import works.itireland.amqp.RabbitMQMessageProducer;
+import works.itireland.clients.notification.NotificationClient;
+import works.itireland.clients.notification.NotificationRequest;
+import works.itireland.clients.user.UserRegisterRequest;
+import works.itireland.clients.user.UserResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Function;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
+
     private final NotificationClient notificationClient;
 
     @Override
@@ -45,9 +53,17 @@ public class UserServiceImpl implements UserService{
                 .state(0)
                 .build();
 
-        notificationClient.sendNotification(notification);
+        // Send Notification through rabbitmq
+        log.info("publishing {} to {}", notification, "internal.notification.routing-key");
+        // Send message to RabbitMQ
+        rabbitMQMessageProducer.publish(notification,
+                "internal.exchange",
+                "internal.notification.routing-key");
+        log.info("published {} to {}", notification, "internal.notification.routing-key");
+
         UserResponse userResponse = new UserResponse();
         BeanUtils.copyProperties(user, userResponse);
+
         return userResponse;
     }
 

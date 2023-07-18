@@ -7,9 +7,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import works.itireland.post.domain.Post;
-import works.itireland.user.UserClient;
-import works.itireland.user.UserResponse;
+import works.itireland.clients.post.PostRequest;
+import works.itireland.clients.post.PostResponse;
+import works.itireland.clients.user.UserClient;
+import works.itireland.clients.user.UserResponse;
 
 import java.util.List;
 

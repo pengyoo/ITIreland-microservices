@@ -3,7 +3,9 @@ spring:
     name: post
   data:
     mongodb:
-      uri: mongodb://localhost:27017/post
+      uri: mongodb://mongo:27017/post
+  zipkin:
+    base-url: http://zipkin:9411
 
 
 server:
@@ -14,7 +16,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
 
 
 management:

@@ -11,9 +11,13 @@
         <module name="apigw" />
         <module name="clients" />
         <module name="post" />
-        <module name="user" />
         <module name="eureka" />
+        <module name="amqp" />
+        <module name="user" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="utils" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

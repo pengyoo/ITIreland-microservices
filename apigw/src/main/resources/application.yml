@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: apigw
@@ -18,8 +21,18 @@ spring:
         - id: user
           uri: lb://USER
           predicates:
-            - Path=/api/v1/users
+            - Path=/api/v1/users/**
         - id: post
           uri: lb://POST
           predicates:
-            - Path=/api/v1/posts
+            - Path=/api/v1/posts/**
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
+logging:
+  pattern:
+    level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"

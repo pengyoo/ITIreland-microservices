@@ -1,8 +1,8 @@
 package works.itireland.user;
 
 import org.springframework.data.domain.Pageable;
-import works.itireland.user.UserRegisterRequest;
-import works.itireland.user.UserResponse;
+import works.itireland.clients.user.UserRegisterRequest;
+import works.itireland.clients.user.UserResponse;
 
 import java.util.List;
 

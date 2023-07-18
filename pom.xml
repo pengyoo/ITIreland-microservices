@@ -16,6 +16,7 @@
     <module>post</module>
       <module>notification</module>
     <module>apigw</module>
+    <module>amqp</module>
   </modules>
 
   <properties>
@@ -26,6 +27,7 @@
     <spring.boot.dependencies.version>3.1.1</spring.boot.dependencies.version>
     <spring.cloud-version>2022.0.3</spring.cloud-version>
     <micrometer-tracing.version>1.1.3</micrometer-tracing.version>
+    <image>ypydd88/${project.artifactId}:${project.version}</image>
   </properties>
 
   <dependencyManagement>
@@ -90,6 +92,8 @@
       <artifactId>feign-micrometer</artifactId>
     </dependency>
     <!-- Tracing End -->
+
+
   </dependencies>
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (maybe moved to parent pom) -->
@@ -145,7 +149,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.11.0</version>
         <configuration>
           <source>17</source>
           <target>17</target>

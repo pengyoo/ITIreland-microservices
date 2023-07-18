@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import works.itireland.clients.user.UserRegisterRequest;
+import works.itireland.clients.user.UserResponse;
 
 import java.util.List;
 

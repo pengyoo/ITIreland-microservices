@@ -4,6 +4,8 @@ package works.itireland.notification;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import works.itireland.clients.notification.NotificationRequest;
+import works.itireland.clients.notification.NotificationResponse;
 
 @Service
 @AllArgsConstructor

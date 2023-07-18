@@ -2,7 +2,8 @@ package works.itireland.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import works.itireland.post.domain.Post;
+import works.itireland.clients.post.PostRequest;
+import works.itireland.clients.post.PostResponse;
 
 public interface PostService {
     PostResponse insert(PostRequest postRequest);

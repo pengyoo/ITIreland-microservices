@@ -1,11 +1,10 @@
 spring:
   application:
-    name: user
+    name: notification
   datasource:
-    url: jdbc:postgresql://localhost:5432/user
+    url: jdbc:postgresql://postgres:5432/notification
     username: itireland
     password: 123
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,20 +13,20 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-
   rabbitmq:
-    addresses: localhost:5672
+    addresses: rabbitmq:5672
+  zipkin:
+    base-url: http://zipkin:9411
 
 server:
-  port: 8083
-
+  port: 8082
 
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka
 
 management:
   tracing:
@@ -42,7 +41,14 @@ logging:
 
 itireland:
   openapi:
-    dev-url: http://localhost:8083
+    dev-url: http://localhost:8082
     prod-url: https://itireland.herokuapp.com
 
 
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key
