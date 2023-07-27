@@ -12,4 +12,6 @@ public interface UserService {
     List<UserResponse> findAll(Pageable pageable);
 
     UserResponse find(Long userId);
+
+    List<UserResponse> findFollowingUsers(Long userId, Pageable pageable);
 }

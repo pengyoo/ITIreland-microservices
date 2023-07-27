@@ -23,6 +23,7 @@ import java.util.function.Function;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final FollowingRepository followingRepository;
 
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
@@ -97,5 +98,17 @@ public class UserServiceImpl implements UserService{
                 return userResponse;
             }
         }).orElseThrow();
+    }
+
+    @Override
+    public List<UserResponse> findFollowingUsers(Long userId, Pageable pageable) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return followingRepository.findFollowingsByUser(user, pageable)
+                .stream()
+                .map( user1 -> {
+                  UserResponse userResponse = new UserResponse();
+                  BeanUtils.copyProperties(user1, userResponse);
+                  return userResponse;
+                }).toList();
     }
 }

@@ -11,8 +11,8 @@ public class PostRequest {
     private Long userId;
     private String title;
     private String content;
-    private List<String> tagsRequest;
-    private String catgoryRequest;
+    private List<String> tags;
+    private String category;
 
 }
 

@@ -41,4 +41,25 @@ public class PostController {
         Pageable pageable = PageRequest.of(page, pageSize);
         return postService.findAll(pageable).toList();
     }
+
+
+    @GetMapping("/user/{userId}")
+    public List<PostResponse> findAllByUserId(@PathVariable Long userId, @RequestParam(required = false, defaultValue = "0") int page,
+                                            @RequestParam(required = false, defaultValue = "10") int pageSize){
+        log.info("find posts by userId and page:" + page +", pageSize:" +pageSize);
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return postService.findAllByUserId(userId, pageable);
+    }
+
+    @GetMapping("/followings/user/{userId}")
+    public List<PostResponse> findFollowingsByUserId(@PathVariable Long userId, @RequestParam(required = false, defaultValue = "0") int page,
+                                              @RequestParam(required = false, defaultValue = "10") int pageSize){
+        log.info("find followings by userId and page:" + page +", pageSize:" +pageSize);
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return postService.findFollowingsByUserId(userId, pageable);
+    }
+
+
+
+
 }

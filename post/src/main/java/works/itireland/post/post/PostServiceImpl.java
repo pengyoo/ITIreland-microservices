@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import works.itireland.clients.post.PostRequest;
 import works.itireland.clients.post.PostResponse;
 import works.itireland.clients.user.UserClient;
+import works.itireland.clients.user.UserResponse;
 import works.itireland.post.category.CategoryRepository;
 import works.itireland.post.tag.Tag;
 import works.itireland.post.tag.TagRepository;
@@ -32,10 +33,10 @@ public class PostServiceImpl implements PostService{
         Post post = new Post();
         BeanUtils.copyProperties(postRequest, post);
         // Process Category
-        post.setCategory(categoryRepository.findById(postRequest.getCatgoryRequest()).get());
+        post.setCategory(categoryRepository.findById(postRequest.getCategory()).get());
         //TODO: Store Tag
         List<Tag> tags = new ArrayList<>();
-        for(String tag : postRequest.getTagsRequest()) {
+        for(String tag : postRequest.getTags()) {
             Tag t = tagRepository.findById(tag).orElse(null);
             if(t == null) {
                 tags.add(tagRepository.insert(new Tag(tag, 0)));
@@ -74,5 +75,40 @@ public class PostServiceImpl implements PostService{
                 return postResponse;
             }
         });
+    }
+
+
+    @Override
+    public List<PostResponse> findAllByUserId(Long userId, Pageable pageable) {
+        return postRepository.findByUserId(userId, pageable)
+                .stream()
+                .map(post -> {
+                    PostResponse postResponse = new PostResponse();
+                    BeanUtils.copyProperties(post, postResponse);
+                    UserResponse user = userClient.find(post.getUserId());
+                    postResponse.setUser(user);
+                    return postResponse;
+                }).toList();
+    }
+
+    @Override
+    public List<PostResponse> findFollowingsByUserId(Long userId, Pageable pageable) {
+        List<UserResponse> followingUsers = userClient.findFollowingUsers(userId);
+        List<Long> ids = new ArrayList<>();
+        for(UserResponse userResponse : followingUsers) {
+            ids.add(userResponse.getId());
+        }
+        List<Post> posts =  postRepository.findByUserIds(ids, pageable);
+        return posts.stream().map(post -> {
+            PostResponse postResponse = new PostResponse();
+            BeanUtils.copyProperties(post, postResponse);
+            postResponse.setUser(
+                    followingUsers
+                            .stream()
+                            .filter(user -> user.getId() == post.getUserId())
+                            .findAny()
+                            .orElse(null));
+            return postResponse;
+        }).toList();
     }
 }

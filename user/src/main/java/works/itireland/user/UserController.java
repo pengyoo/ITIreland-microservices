@@ -38,4 +38,14 @@ public class UserController {
         Pageable pageable = PageRequest.of(page, pageSize);
         return userService.findAll(pageable);
     }
+
+
+    @GetMapping("/{userId}/followings")
+    public List<UserResponse> getFollowingUsers(@PathVariable Long userId,
+                                                @RequestParam(required = false, defaultValue = "0") int page,
+                                                @RequestParam(required = false, defaultValue = "1000") int pageSize){
+        log.info("find following users by userId{}", userId);
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return userService.findFollowingUsers(userId, pageable);
+    }
 }

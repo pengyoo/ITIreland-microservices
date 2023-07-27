@@ -2,7 +2,7 @@ package works.itireland.post.tag;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import works.itireland.clients.tag.TagResponse;
+import works.itireland.clients.post.TagResponse;
 
 import java.util.List;
 

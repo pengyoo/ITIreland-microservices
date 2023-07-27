@@ -1,4 +1,4 @@
-package works.itireland.clients.tag;
+package works.itireland.clients.post;
 
 
 import lombok.Builder;
