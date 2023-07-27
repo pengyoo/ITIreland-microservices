@@ -1,8 +1,9 @@
-package works.itireland.post.domain;
+package works.itireland.post.comment;
 
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import works.itireland.post.post.Post;
 
 import java.time.LocalDateTime;
 

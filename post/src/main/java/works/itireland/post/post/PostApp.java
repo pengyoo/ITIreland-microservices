@@ -1,4 +1,4 @@
-package works.itireland.post;
+package works.itireland.post.post;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

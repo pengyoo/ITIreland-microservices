@@ -1,4 +1,4 @@
-package works.itireland.post;
+package works.itireland.post.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

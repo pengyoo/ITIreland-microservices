@@ -21,20 +21,20 @@ public class UserController {
 
     @PostMapping
     public UserResponse save(@RequestBody UserRegisterRequest userRegisterRequest){
-        log.info("register user" + userRegisterRequest);
+        log.info("register user {}", userRegisterRequest);
         return userService.register(userRegisterRequest);
     }
 
     @GetMapping("/{userId}")
     public UserResponse find(@PathVariable Long userId){
-        log.info("find user by userId:" + userId);
+        log.info("find user by userId: {}", userId);
         return userService.find(userId);
     }
 
     @GetMapping
     public List<UserResponse> list(@RequestParam(required = false, defaultValue = "0") int page,
                                    @RequestParam(required = false, defaultValue = "10") int pageSize){
-        log.info("find users by page:" + page+ ", pageSize:"+ pageSize);
+        log.info("find users by page: {}, pageSize: {}", page, pageSize);
         Pageable pageable = PageRequest.of(page, pageSize);
         return userService.findAll(pageable);
     }

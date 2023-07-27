@@ -41,6 +41,8 @@ services:
     image: mongo
     networks:
       - mongo
+    volumes:
+      - mongo:/data/mongo
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -57,70 +59,70 @@ services:
     networks:
       - spring
 
-  eureka-server:
-    image: ypydd88/eureka:latest
-    container_name: eureka-server
-    ports:
-      - "8761:8761"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    networks:
-      - spring
-    depends_on:
-      - zipkin
-  apigw:
-    image: ypydd88/apigw:latest
-    container_name: apigw
-    ports:
-      - "8080:8080"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    networks:
-      - spring
-    depends_on:
-      - zipkin
-      - eureka-server
-
-  user:
-    image: ypydd88/user:latest
-    container_name: user
-    ports:
-      - "8083:8083"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    networks:
-      - spring
-      - postgres
-    depends_on:
-      - eureka-server
-      - zipkin
-  post:
-    image: ypydd88/post:latest
-    container_name: post
-    ports:
-      - "8081:8081"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    networks:
-      - spring
-      - mongo
-    depends_on:
-      - eureka-server
-      - zipkin
-  notification:
-    image: ypydd88/notification:latest
-    container_name: notification
-    ports:
-      - "8082:8082"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    networks:
-      - spring
-      - postgres
-    depends_on:
-      - eureka-server
-      - zipkin
-      - rabbitmq
+#  eureka-server:
+#    image: ypydd88/eureka:latest
+#    container_name: eureka-server
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    networks:
+#      - spring
+#    depends_on:
+#      - zipkin
+#  apigw:
+#    image: ypydd88/apigw:latest
+#    container_name: apigw
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    networks:
+#      - spring
+#    depends_on:
+#      - zipkin
+#      - eureka-server
+#
+#  user:
+#    image: ypydd88/user:latest
+#    container_name: user
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+#      - eureka-server
+#      - zipkin
+#  post:
+#    image: ypydd88/post:latest
+#    container_name: post
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    networks:
+#      - spring
+#      - mongo
+#    depends_on:
+#      - eureka-server
+#      - zipkin
+#  notification:
+#    image: ypydd88/notification:latest
+#    container_name: notification
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+#      - eureka-server
+#      - zipkin
+#      - rabbitmq
 
 networks:
   postgres:
@@ -133,3 +135,4 @@ networks:
 volumes:
   postgres:
   pgadmin:
+  mongo:

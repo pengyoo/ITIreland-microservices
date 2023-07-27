@@ -1,10 +1,17 @@
-package works.itireland.post.domain;
+package works.itireland.post.category;
 
-import nonapi.io.github.classgraph.json.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("category")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
+
     @Id
     private String category;
 
@@ -12,4 +19,5 @@ public class Category {
     private int state;
 
     private int sort;
+
 }

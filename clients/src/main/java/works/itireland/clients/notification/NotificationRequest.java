@@ -20,6 +20,7 @@ public class NotificationRequest {
         private String fromUsername;
         private Long toUserId;
         private String toUserEmail;
+        private String toUserName;
 
         // 0: System, 1: User
         private int type;

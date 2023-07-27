@@ -6,6 +6,7 @@ import lombok.Data;
 import works.itireland.clients.user.UserResponse;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class PostResponse {
@@ -13,6 +14,10 @@ public class PostResponse {
     private UserResponse user;
     private String title;
     private String content;
+
+    private String category;
+
+    private List<String> tags;
 
     private LocalDateTime ctime;
     private LocalDateTime utime;

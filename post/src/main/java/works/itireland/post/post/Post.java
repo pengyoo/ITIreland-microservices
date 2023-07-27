@@ -1,11 +1,14 @@
-package works.itireland.post.domain;
+package works.itireland.post.post;
 
 
 import lombok.Data;
-import nonapi.io.github.classgraph.json.Id;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import works.itireland.post.category.Category;
+import works.itireland.post.comment.Comment;
+import works.itireland.post.tag.Tag;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,10 +16,9 @@ import java.util.List;
 @Data
 @Document("post")
 public class Post {
+
     @Id
     private String id;
-
-
     private Long userId;
     private String title;
 

@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService{
                 .message("Welcome to IT Ireland!")
                 .toUserId(user.getId())
                 .toUserEmail(user.getEmail())
+                .toUserName(user.getUsername())
                 .type(0)
                 .ctime(LocalDateTime.now())
                 .state(0)
@@ -70,10 +71,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserResponse> findAll(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
-        return users.stream().map(new Function<User, UserResponse>() {
-            @Override
-            public UserResponse apply(User user) {
-                return UserResponse.builder()
+        log.info("finding users  by pageable {}", pageable);
+        return users.stream().map((user) -> UserResponse.builder()
                         .id(user.getId())
                         .level(user.getLevel())
                         .profile(user.getProfile())
@@ -84,13 +83,12 @@ public class UserServiceImpl implements UserService{
                         .ctime(user.getCtime())
                         .state(user.getState())
                         .headShotUrl(user.getHeadShotUrl())
-                        .build();
-            }
-        }).toList();
+                        .build()).toList();
     }
 
     @Override
     public UserResponse find(Long userId) {
+        log.info("finding user by id {}", userId);
         return userRepository.findById(userId).map(new Function<User, UserResponse>() {
             @Override
             public UserResponse apply(User user) {
