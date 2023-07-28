@@ -36,7 +36,6 @@ public class PostServiceImpl implements PostService{
         BeanUtils.copyProperties(postRequest, post);
         // Process Category
         post.setCategory(categoryRepository.findById(postRequest.getCategory()).get());
-        //TODO: Store Tag
         List<Tag> tags = new ArrayList<>();
         for(String tag : postRequest.getTags()) {
             Tag t = tagRepository.findById(tag).orElse(null);
