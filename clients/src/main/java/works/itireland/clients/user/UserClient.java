@@ -3,6 +3,7 @@ package works.itireland.clients.user;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import works.itireland.clients.R;
 
 import java.util.List;
 
@@ -13,12 +14,12 @@ import java.util.List;
 public interface UserClient {
 
     @GetMapping( "/{userId}")
-    UserResponse find(
+    R<UserResponse> find(
             @PathVariable("userId") Long userId);
 
     @GetMapping
-    UserResponse list();
+    R<UserResponse> list();
 
     @GetMapping("/{userId}/followings")
-    List<UserResponse> findFollowingUsers( @PathVariable("userId")Long userId);
+    R<List<UserResponse>> findFollowingUsers( @PathVariable("userId")Long userId);
 }

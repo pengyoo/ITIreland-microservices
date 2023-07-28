@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import works.itireland.clients.R;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
 
@@ -20,32 +21,32 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserResponse save(@RequestBody UserRegisterRequest userRegisterRequest){
+    public R<UserResponse> save(@RequestBody UserRegisterRequest userRegisterRequest){
         log.info("register user {}", userRegisterRequest);
-        return userService.register(userRegisterRequest);
+        return R.success(userService.register(userRegisterRequest));
     }
 
     @GetMapping("/{userId}")
-    public UserResponse find(@PathVariable Long userId){
+    public R<UserResponse> find(@PathVariable Long userId){
         log.info("find user by userId: {}", userId);
-        return userService.find(userId);
+        return R.success(userService.find(userId));
     }
 
     @GetMapping
-    public List<UserResponse> list(@RequestParam(required = false, defaultValue = "0") int page,
+    public R<List<UserResponse>> list(@RequestParam(required = false, defaultValue = "0") int page,
                                    @RequestParam(required = false, defaultValue = "10") int pageSize){
         log.info("find users by page: {}, pageSize: {}", page, pageSize);
         Pageable pageable = PageRequest.of(page, pageSize);
-        return userService.findAll(pageable);
+        return R.success(userService.findAll(pageable));
     }
 
 
     @GetMapping("/{userId}/followings")
-    public List<UserResponse> getFollowingUsers(@PathVariable Long userId,
+    public R<List<UserResponse>> getFollowingUsers(@PathVariable Long userId,
                                                 @RequestParam(required = false, defaultValue = "0") int page,
                                                 @RequestParam(required = false, defaultValue = "1000") int pageSize){
         log.info("find following users by userId{}", userId);
         Pageable pageable = PageRequest.of(page, pageSize);
-        return userService.findFollowingUsers(userId, pageable);
+        return R.success(userService.findFollowingUsers(userId, pageable));
     }
 }

@@ -11,6 +11,7 @@ import works.itireland.clients.post.PostResponse;
 import works.itireland.clients.user.UserClient;
 import works.itireland.clients.user.UserResponse;
 import works.itireland.post.category.CategoryRepository;
+import works.itireland.post.exception.ApiRequestException;
 import works.itireland.post.tag.Tag;
 import works.itireland.post.tag.TagRepository;
 
@@ -29,6 +30,8 @@ public class PostServiceImpl implements PostService{
     private final CategoryRepository categoryRepository;
 
     private final TagRepository tagRepository;
+
+    private final UpvoteRepository upvoteRepository;
 
     @Override
     public PostResponse insert(PostRequest postRequest) {
@@ -55,47 +58,62 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    public void delete(Long userId, String postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        if(post.getUserId() != userId){
+            throw new ApiRequestException("The post doesn't belong to user whose userId is %s".formatted(userId));
+        }
+        post.setState(-1);
+        postRepository.save(post);
+    }
+
+
+    @Override
     public Page<PostResponse> findAll(Pageable pageable) {
-        return postRepository.findAll(pageable).map(new Function<Post, PostResponse>() {
-            @Override
-            public PostResponse apply(Post post) {
-                PostResponse postResponse = new PostResponse();
-                BeanUtils.copyProperties(post, postResponse);
-
-                // Process Category
-                postResponse.setCategory(post.getCategory().getCategory());
-
-                // Process Tags
-                List<String> tags = new ArrayList<>();
-                for(Tag tag : post.getTags()){
-                    tags.add(tag.getTag());
-                }
-                postResponse.setTags(tags);
-
-                postResponse.setUser(userClient.find(post.getUserId()));
-                return postResponse;
-            }
-        });
+        return postRepository.findByState(pageable, 0)
+                .map(post -> getPostResponse(post));
     }
 
 
     @Override
     public List<PostResponse> findAllByUserId(Long userId, Pageable pageable) {
-        return postRepository.findByUserId(userId, pageable)
+        return postRepository.findByUserIdAndState(userId, 0, pageable)
                 .stream()
-                .map(post -> {
-                    PostResponse postResponse = new PostResponse();
-                    BeanUtils.copyProperties(post, postResponse);
-                    UserResponse user = userClient.find(post.getUserId());
-                    postResponse.setUser(user);
-                    return postResponse;
-                }).toList();
+                .map(post -> getPostResponse(post)).toList();
+    }
+
+
+    /**
+     * Convert Post to PostResponse
+     * @param post
+     * @return
+     */
+    private PostResponse getPostResponse(Post post) {
+        PostResponse postResponse = new PostResponse();
+        BeanUtils.copyProperties(post, postResponse);
+
+        // Process Category
+        postResponse.setCategory(post.getCategory().getCategory());
+
+        // Process Tags
+        List<String> tags = new ArrayList<>();
+        for(Tag tag : post.getTags()){
+            tags.add(tag.getTag());
+        }
+        postResponse.setTags(tags);
+
+        // Process User
+        postResponse.setUser(userClient.find(post.getUserId()).getData());
+        return postResponse;
     }
 
     @Override
     public List<PostResponse> findFollowingsByUserId(Long userId, Pageable pageable) {
         log.info("finding following users from user service, userId: {}", userId);
-        List<UserResponse> followingUsers = userClient.findFollowingUsers(userId);
+        List<UserResponse> followingUsers = userClient.findFollowingUsers(userId).getData();
+        if(followingUsers == null || followingUsers.size() == 0){
+            return new ArrayList<PostResponse>();
+        }
 
         List<Long> ids = new ArrayList<>();
         for(UserResponse userResponse : followingUsers) {
@@ -103,17 +121,51 @@ public class PostServiceImpl implements PostService{
         }
 
         log.info("finding following users' posts");
-        List<Post> posts =  postRepository.findByUserIds(ids, pageable);
-        return posts.stream().map(post -> {
-            PostResponse postResponse = new PostResponse();
-            BeanUtils.copyProperties(post, postResponse);
-            postResponse.setUser(
-                    followingUsers
-                            .stream()
-                            .filter(user -> user.getId() == post.getUserId())
-                            .findAny()
-                            .orElse(null));
-            return postResponse;
-        }).toList();
+        List<Post> posts =  postRepository.findByUserIdInAndState(ids, 0, pageable);
+        return posts.stream().map(post -> getPostResponse(post)).toList();
+        //        return posts.stream().map(post -> {
+//            PostResponse postResponse = new PostResponse();
+//            BeanUtils.copyProperties(post, postResponse);
+//            postResponse.setUser(
+//                    followingUsers
+//                            .stream()
+//                            .filter(user -> user.getId() == post.getUserId())
+//                            .findAny()
+//                            .orElse(null));
+//            return postResponse;
+//        }).toList();
+    }
+
+
+
+    @Override
+    public int upvote(Long userId, String postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        Upvote upvote = upvoteRepository.findUpvoteByUserIdAndPost(userId, post);
+        if(upvote != null)
+            throw new ApiRequestException("You've already upvote this post");
+        upvote = new Upvote(userId, post);
+        upvoteRepository.save(upvote);
+        post.setUpvotes(post.getUpvotes()+1);
+        postRepository.save(post);
+        return post.getUpvotes();
+    }
+
+    @Override
+    public int unUpvote(Long userId, String postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        Upvote upvote = upvoteRepository.findUpvoteByUserIdAndPost(userId, post);
+        if(upvote == null)
+            throw new ApiRequestException("You didn't upvote this post yet!");
+        upvoteRepository.delete(upvote);
+        post.setUpvotes(post.getUpvotes()-1);
+        postRepository.save(post);
+        return post.getUpvotes();
+    }
+
+    @Override
+    public PostResponse findById(String postId) {
+        return postRepository.findById(postId)
+                .map(post -> getPostResponse(post)).orElseThrow();
     }
 }

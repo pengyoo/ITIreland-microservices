@@ -1,5 +1,6 @@
 package works.itireland.post.post;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -13,8 +14,10 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
-    List<Post> findByUserId(Long userId, Pageable pageable);
+    List<Post> findByUserIdAndState(Long userId, int state,Pageable pageable);
 
-    @Query("from Post p where p.userId in ids")
-    List<Post> findByUserIds(List<Long> ids, Pageable pageable);
+    List<Post> findByUserIdInAndState(List<Long> ids, int state, Pageable pageable);
+
+    Page<Post> findByState(Pageable pageable, int state);
+
 }

@@ -31,7 +31,6 @@ services:
     ports:
       - '27017:27017'
     container_name: mongo
-    restart: always
     logging:
       options:
         max-size: 1g
@@ -43,6 +42,7 @@ services:
       - mongo
     volumes:
       - mongo:/data/mongo
+    restart: unless-stopped
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
@@ -50,6 +50,7 @@ services:
       - 9411:9411
     networks:
       - spring
+    restart: unless-stopped
   rabbitmq:
     image: rabbitmq:3.12.1-management-alpine
     container_name: rabbitmq
@@ -58,6 +59,7 @@ services:
       - "15672:15672"
     networks:
       - spring
+    restart: unless-stopped
 
 #  eureka-server:
 #    image: ypydd88/eureka:latest

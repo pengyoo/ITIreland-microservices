@@ -15,4 +15,12 @@ public interface PostService {
     List<PostResponse> findAllByUserId(Long userId, Pageable pageable);
 
     List<PostResponse> findFollowingsByUserId(Long userId, Pageable pageable);
+
+    void delete(Long userId, String postId);
+
+    int upvote(Long userId, String postId);
+
+    int unUpvote(Long userId, String postId);
+
+    PostResponse findById(String postId);
 }
