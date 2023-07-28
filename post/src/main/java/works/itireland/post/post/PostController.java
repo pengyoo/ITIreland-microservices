@@ -51,7 +51,7 @@ public class PostController {
         return postService.findAllByUserId(userId, pageable);
     }
 
-    @GetMapping("/followings/user/{userId}")
+    @GetMapping("/followings/{userId}")
     public List<PostResponse> findFollowingsByUserId(@PathVariable Long userId, @RequestParam(required = false, defaultValue = "0") int page,
                                               @RequestParam(required = false, defaultValue = "10") int pageSize){
         log.info("find followings by userId and page:" + page +", pageSize:" +pageSize);

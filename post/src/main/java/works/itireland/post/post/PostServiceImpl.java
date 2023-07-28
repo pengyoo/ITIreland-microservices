@@ -1,6 +1,7 @@
 package works.itireland.post.post;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class PostServiceImpl implements PostService{
 
     private final UserClient userClient;
@@ -93,11 +95,15 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public List<PostResponse> findFollowingsByUserId(Long userId, Pageable pageable) {
+        log.info("finding following users from user service, userId: {}", userId);
         List<UserResponse> followingUsers = userClient.findFollowingUsers(userId);
+
         List<Long> ids = new ArrayList<>();
         for(UserResponse userResponse : followingUsers) {
             ids.add(userResponse.getId());
         }
+
+        log.info("finding following users' posts");
         List<Post> posts =  postRepository.findByUserIds(ids, pageable);
         return posts.stream().map(post -> {
             PostResponse postResponse = new PostResponse();
