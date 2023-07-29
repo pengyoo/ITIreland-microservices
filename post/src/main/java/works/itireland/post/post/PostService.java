@@ -23,4 +23,8 @@ public interface PostService {
     int unUpvote(Long userId, String postId);
 
     PostResponse findById(String postId);
+
+    int downvote(Long userId, String postId);
+
+    int unDownvote(Long userId, String postId);
 }

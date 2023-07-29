@@ -15,7 +15,11 @@ public class NotificationServiceImpl implements NotificationService{
     public NotificationResponse send(NotificationRequest request) {
         Notification notification = new Notification();
         BeanUtils.copyProperties(request, notification);
+
+        // Send Notification within website
         notification = notificationRepository.save(notification);
+        //TODO Send Email Notification
+
         NotificationResponse notificationResponse = new NotificationResponse();
         BeanUtils.copyProperties(notification, notificationResponse);
         return notificationResponse;

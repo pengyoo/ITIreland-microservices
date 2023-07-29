@@ -11,6 +11,7 @@
         <module name="apigw" />
         <module name="clients" />
         <module name="post" />
+        <module name="auth" />
         <module name="eureka" />
         <module name="amqp" />
         <module name="user" />

@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface FollowingRepository extends JpaRepository<Following, Long> {
 
     @Query("SELECT f.follower FROM Following f WHERE f.following = :user")
-    Page<User> findFollowersByUser(User user, Pageable pageable);
+    Page<User> findFollowersByUser(@Param("user")User user, Pageable pageable);
 
     @Query("SELECT f.following FROM Following f WHERE f.follower = :user")
     Page<User> findFollowingsByUser(@Param("user") User user, Pageable pageable);

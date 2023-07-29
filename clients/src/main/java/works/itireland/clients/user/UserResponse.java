@@ -26,6 +26,8 @@ public class UserResponse {
     private int state;
     private int credits;
 
+    private String role;
+
     private int level;
     private String headShotUrl;
 

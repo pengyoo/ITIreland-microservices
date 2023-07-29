@@ -14,10 +14,13 @@ import works.itireland.post.category.CategoryRepository;
 import works.itireland.post.exception.ApiRequestException;
 import works.itireland.post.tag.Tag;
 import works.itireland.post.tag.TagRepository;
+import works.itireland.post.vote.Downvote;
+import works.itireland.post.vote.DownvoteRepository;
+import works.itireland.post.vote.Upvote;
+import works.itireland.post.vote.UpvoteRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 
 @Service
@@ -32,6 +35,7 @@ public class PostServiceImpl implements PostService{
     private final TagRepository tagRepository;
 
     private final UpvoteRepository upvoteRepository;
+    private final DownvoteRepository downvoteRepository;
 
     @Override
     public PostResponse insert(PostRequest postRequest) {
@@ -167,5 +171,30 @@ public class PostServiceImpl implements PostService{
     public PostResponse findById(String postId) {
         return postRepository.findById(postId)
                 .map(post -> getPostResponse(post)).orElseThrow();
+    }
+
+    @Override
+    public int downvote(Long userId, String postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        Downvote downvote = downvoteRepository.findDownvoteByUserIdAndPost(userId, post);
+        if(downvote != null)
+            throw new ApiRequestException("You've already downvote this post");
+        downvote = new Downvote(userId, post);
+        downvoteRepository.save(downvote);
+        post.setDownvotes(post.getDownvotes()+1);
+        postRepository.save(post);
+        return post.getDownvotes();
+    }
+
+    @Override
+    public int unDownvote(Long userId, String postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        Downvote downvote = downvoteRepository.findDownvoteByUserIdAndPost(userId, post);
+        if(downvote == null)
+            throw new ApiRequestException("You didn't downvote this post yet!");
+        downvoteRepository.delete(downvote);
+        post.setDownvotes(post.getDownvotes()-1);
+        postRepository.save(post);
+        return post.getDownvotes();
     }
 }

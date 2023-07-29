@@ -105,10 +105,61 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.findById(userId).orElseThrow();
         return followingRepository.findFollowingsByUser(user, pageable)
                 .stream()
-                .map( user1 -> {
-                  UserResponse userResponse = new UserResponse();
-                  BeanUtils.copyProperties(user1, userResponse);
-                  return userResponse;
-                }).toList();
+                .map( user1 ->  getUserResponse(user1)).toList();
     }
+
+    private UserResponse getUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
+
+    @Override
+    public List<UserResponse> findFollowerUsers(Long userId, Pageable pageable) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return followingRepository.findFollowersByUser(user, pageable)
+                .stream()
+                .map(user1 ->getUserResponse(user1))
+                .toList();
+    }
+
+
+
+    @Override
+    public void follow(Long userId, Long followingUserId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        User followingUser = userRepository.findById(followingUserId).orElseThrow();
+        Following following = new Following(followingUser, user, LocalDateTime.now());
+        followingRepository.save(following);
+    }
+
+    @Override
+    public void unFollow(Long userId, Long followingUserId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        User followingUser = userRepository.findById(followingUserId).orElseThrow();
+        Following following = followingRepository.findByFollowingAndFollower(followingUser, user).orElseThrow();
+        followingRepository.delete(following);
+    }
+
+    @Override
+    public boolean isFollowing(Long userId, Long followingUserId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        User followingUser = userRepository.findById(followingUserId).orElseThrow();
+        Following following = followingRepository.findByFollowingAndFollower(followingUser, user).orElse(null);
+        return following != null;
+    }
+
+    @Override
+    public UserResponse findByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return getUserResponse(user);
+    }
+
+    @Override
+    public UserResponse findByUsernameAndPassword(String username, String password) {
+        User user =  userRepository.findByUsernameAndPassword(username, password).orElseThrow();
+        return getUserResponse(user);
+    }
+
+
 }

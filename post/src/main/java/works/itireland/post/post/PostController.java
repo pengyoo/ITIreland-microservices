@@ -88,6 +88,19 @@ public class PostController {
         return R.success(upvotes);
     }
 
+    @PostMapping("/downvote/{userId}/{postId}")
+    public R downvote(@PathVariable Long userId, @PathVariable String postId){
+        int downvotes = postService.downvote(userId, postId);
+        return R.success(downvotes);
+    }
+
+    @PostMapping("/unDownvote/{userId}/{postId}")
+    @RolesAllowed("USER")
+    public R unDownvote(@PathVariable Long userId, @PathVariable String postId){
+        int downvotes = postService.unDownvote(userId, postId);
+        return R.success(downvotes);
+    }
+
 
 
 }

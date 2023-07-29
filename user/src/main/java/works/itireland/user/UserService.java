@@ -14,4 +14,16 @@ public interface UserService {
     UserResponse find(Long userId);
 
     List<UserResponse> findFollowingUsers(Long userId, Pageable pageable);
+
+    void follow(Long userId, Long followingUserId);
+
+    void unFollow(Long userId, Long followingUserId);
+
+    List<UserResponse> findFollowerUsers(Long userId, Pageable pageable);
+
+    boolean isFollowing(Long userId, Long followingUserId);
+
+    UserResponse findByUsername(String username);
+
+    UserResponse findByUsernameAndPassword(String username, String password);
 }

@@ -1,8 +1,8 @@
-package works.itireland.post.post;
+package works.itireland.post.vote;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
+import works.itireland.post.post.Post;
 
 /**
  *

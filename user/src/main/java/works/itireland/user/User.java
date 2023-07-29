@@ -41,6 +41,8 @@ public class User {
     //0:active, -1:delete, -2:disabled
     private int state;
 
+    private String role = "USER";
+
     private int credits;
 
     private int level;

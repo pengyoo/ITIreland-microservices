@@ -16,7 +16,7 @@ spring:
           - id: post
             uri: lb://POST
             predicates:
-              - Path=/api/v1/posts/**
+              - Path=/api/v1/posts/**,/api/v1/comments/**,/api/v1/tags/**
 
 eureka:
     client:
@@ -34,3 +34,10 @@ management:
 logging:
   pattern:
     level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+
+
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+  allowed-headers: "*"
+  exposed-headers: "*"

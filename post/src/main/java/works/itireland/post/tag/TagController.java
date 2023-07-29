@@ -11,7 +11,7 @@ import works.itireland.clients.post.TagResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts/tags")
+@RequestMapping("/api/v1/tags")
 @AllArgsConstructor
 public class TagController {
 
