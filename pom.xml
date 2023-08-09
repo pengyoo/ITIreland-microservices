@@ -10,14 +10,16 @@
   <name>ITIreland-microservices</name>
   <url>http://maven.apache.org</url>
   <modules>
-    <module>user</module>
-    <module>eureka</module>
-      <module>clients</module>
-    <module>post</module>
-      <module>notification</module>
-    <module>apigw</module>
-    <module>amqp</module>
-      <module>auth</module>
+    <module>microservices/user-service</module>
+    <module>spring-cloud/eureka-server</module>
+      <module>common/feign-clients</module>
+    <module>microservices/post-service</module>
+      <module>microservices/notification-service</module>
+    <module>spring-cloud/apigw-server</module>
+    <module>common/amqp-common</module>
+      <module>./microservices/auth-service</module>
+      <module>common/auth-common</module>
+      <module>common/exception-common</module>
   </modules>
 
   <properties>

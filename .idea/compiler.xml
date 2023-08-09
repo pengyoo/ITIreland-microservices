@@ -7,17 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="notification" />
-        <module name="apigw" />
+        <module name="amqp-common" />
+        <module name="auth-service" />
+        <module name="post-service" />
+        <module name="exception-common" />
         <module name="clients" />
-        <module name="post" />
-        <module name="auth" />
-        <module name="eureka" />
-        <module name="amqp" />
-        <module name="user" />
+        <module name="apigw-server" />
+        <module name="user-service" />
+        <module name="auth-common" />
+        <module name="eureka-server" />
+        <module name="notification-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="security" target="17" />
+      <module name="spring-security" target="17" />
       <module name="utils" target="17" />
     </bytecodeTargetLevel>
   </component>
