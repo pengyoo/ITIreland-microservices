@@ -41,18 +41,21 @@ public class PostServiceImpl implements PostService{
     public PostResponse insert(PostRequest postRequest) {
         Post post = new Post();
         BeanUtils.copyProperties(postRequest, post);
+
         // Process Category
         post.setCategory(categoryRepository.findById(postRequest.getCategory()).get());
         List<Tag> tags = new ArrayList<>();
-        for(String tag : postRequest.getTags()) {
-            Tag t = tagRepository.findById(tag).orElse(null);
-            if(t == null) {
-                tags.add(tagRepository.insert(new Tag(tag, 0)));
-            } else {
-                tags.add(t);
+        if(postRequest.getTags() != null) {
+            for (String tag : postRequest.getTags()) {
+                Tag t = tagRepository.findById(tag).orElse(null);
+                if (t == null) {
+                    tags.add(tagRepository.insert(new Tag(tag, 0)));
+                } else {
+                    tags.add(t);
+                }
             }
+            post.setTags(tags);
         }
-        post.setTags(tags);
 
         // Store post
         post = postRepository.insert(post);

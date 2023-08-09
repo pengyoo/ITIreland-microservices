@@ -14,9 +14,10 @@ import java.util.List;
 )
 public interface UserClient {
 
-    @GetMapping( "/{userId}")
+    @GetMapping( "/open/{userId}")
     R<UserResponse> find(
             @PathVariable("userId") Long userId);
+
 
     @GetMapping
     R<UserResponse> list();
@@ -25,10 +26,10 @@ public interface UserClient {
     R<List<UserResponse>> findFollowingUsers(@PathVariable("userId") Long userId);
 
 
-    @GetMapping("/findByUsername/{username}")
+    @GetMapping("/open/findByUsername/{username}")
     R<UserResponse> findByUsername(@PathVariable("username") String username);
 
-    @GetMapping("/login")
+    @GetMapping("/open/login")
     R<UserResponse> findByUsernameAndPassword(@RequestParam("username") String username,
                                               @RequestParam("password") String password);
 }

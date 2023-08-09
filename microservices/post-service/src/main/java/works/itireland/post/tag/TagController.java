@@ -16,7 +16,7 @@ import java.util.List;
 public class TagController {
 
     private final TagService tagService;
-    @GetMapping
+    @GetMapping("/open")
     public R<List<TagResponse>> findAll() {
         return R.success(tagService.findAll());
     }

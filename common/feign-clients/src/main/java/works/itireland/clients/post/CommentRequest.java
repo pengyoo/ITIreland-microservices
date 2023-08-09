@@ -1,6 +1,7 @@
 package works.itireland.clients.post;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -11,7 +12,7 @@ public class CommentRequest {
     @NotBlank(message = "Comment content can't be null")
     private String content;
 
-    @NotNull(message = "userId can't be null")
+    @JsonIgnore
     private Long userId;
     @NotNull(message = "postId content can't be null")
     private String postId;

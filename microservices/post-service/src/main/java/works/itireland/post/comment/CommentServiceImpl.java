@@ -13,6 +13,7 @@ import works.itireland.exception.ApiRequestException;
 import works.itireland.post.post.Post;
 import works.itireland.post.post.PostRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,8 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public CommentResponse save(CommentRequest commentRequest) {
         Comment comment = getComment(commentRequest);
+        comment.setCtime(LocalDateTime.now());
+        comment.setUtime(LocalDateTime.now());
         comment = commentRepository.save(comment);
         return getCommentResponse(comment);
     }

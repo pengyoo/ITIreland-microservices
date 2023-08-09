@@ -8,10 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="amqp-common" />
+        <module name="feign-clients" />
         <module name="auth-service" />
         <module name="post-service" />
         <module name="exception-common" />
-        <module name="clients" />
         <module name="apigw-server" />
         <module name="user-service" />
         <module name="auth-common" />
