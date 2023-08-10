@@ -8,7 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="amqp-common" />
-        <module name="feign-clients" />
         <module name="auth-service" />
         <module name="post-service" />
         <module name="exception-common" />
@@ -17,6 +16,7 @@
         <module name="auth-common" />
         <module name="eureka-server" />
         <module name="notification-service" />
+        <module name="feign-clients-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

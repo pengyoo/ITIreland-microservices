@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: post-service
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/post
+  zipkin:
+    base-url: http://zipkin:9411
+
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
+logging:
+  pattern:
+    level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+
+itireland:
+  openapi:
+    dev-url: http://localhost:8081
+    prod-url: https://itireland.herokuapp.com

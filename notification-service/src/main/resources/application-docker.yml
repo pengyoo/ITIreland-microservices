@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: jdbc:postgresql://postgres:5432/notification
+    username: itireland
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  rabbitmq:
+    addresses: rabbitmq:5672
+  zipkin:
+    base-url: http://zipkin:9411
+
+server:
+  port: 8082
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+
+logging:
+  pattern:
+    level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
+
+
+itireland:
+  openapi:
+    dev-url: http://localhost:8082
+    prod-url: https://itireland.herokuapp.com
+
+
+rabbitmq:
+  exchanges:
+    internal: internal.exchange
+  queues:
+    notification: notification.queue
+  routing-keys:
+    internal-notification: internal.notification.routing-key
