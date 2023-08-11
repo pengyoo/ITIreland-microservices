@@ -1,12 +1,18 @@
 package works.itireland.post.post;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import works.itireland.auth.AuthUtils;
 import works.itireland.auth.AuthorizedRoles;
@@ -48,6 +54,25 @@ public class PostController {
 
     }
 
+    @Operation(summary = "Query Posts", description = "Returns posts list for given page")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "200 Response",
+                                    summary = "Price calculated successfully",
+                                    value = "3389.08")})),
+            @ApiResponse(responseCode = "404", description = "Not found - posts are not found", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "404 Response",
+                                    summary = "404 from the service directly",
+                                    value =
+                                            "{\"timestamp\": \"2023-02-18T01:20:33.0725725\","
+                                                    + "\"message\": \"Product not found by id : 1\""
+                                                    + "}")}))})
     @GetMapping("/open")
     public R<List<PostResponse>> findAll(@RequestParam(required = false, defaultValue = "0") int page,
                      @RequestParam(required = false, defaultValue = "10") int pageSize){

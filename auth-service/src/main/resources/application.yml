@@ -25,6 +25,16 @@ logging:
   pattern:
     level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"
 
+openapi:
+  service:
+    title: auth-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8080 #api gateway url
+springdoc:
+  api-docs:
+    path: /auth/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /auth/swagger-ui.html
 
 itireland:
   openapi:

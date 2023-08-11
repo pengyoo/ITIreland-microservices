@@ -18,7 +18,7 @@ public class AuthFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
-        if(!path.contains("open")) {
+        if(path.contains("secure")) {
             HttpHeaders headers = request.getHeaders();
             final String authHeader = headers.getFirst("Authorization");
 
