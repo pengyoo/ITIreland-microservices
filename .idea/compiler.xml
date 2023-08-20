@@ -7,19 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="amqp-common" />
-        <module name="auth-service" />
-        <module name="post-service" />
-        <module name="exception-common" />
-        <module name="apigw-server" />
-        <module name="user-service" />
-        <module name="auth-common" />
-        <module name="eureka-server" />
-        <module name="notification-service" />
-        <module name="feign-clients-common" />
+        <module name="itireland-config-server" />
+        <module name="itireland-amqp" />
+        <module name="itireland-feign-api" />
+        <module name="itireland-user-service" />
+        <module name="itireland-common" />
+        <module name="itireland-notification-service" />
+        <module name="itireland-gateway-server" />
+        <module name="itireland-post-service" />
+        <module name="itireland-auth-service" />
+        <module name="itireland-eureka-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="auth-common" target="17" />
       <module name="security" target="17" />
       <module name="spring-security" target="17" />
       <module name="utils" target="17" />

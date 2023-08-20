@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/amqp-common/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/amqp-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/apigw-server/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/apigw-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/auth-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/auth-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/auth-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/auth-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/clients/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/clients/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/amqp-common/src/main/java" charset="UTF-8" />
@@ -17,16 +11,26 @@
     <file url="file://$PROJECT_DIR$/common/auth-common/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/exception-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/exception-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/eureka-server/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/exception-common/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/exception-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/feign-clients-common/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/feign-clients-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/notification-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/notification-service/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/post-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/post-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-amqp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-amqp/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-auth-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-config-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-eureka-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-eureka-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-feign-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-feign-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-gateway-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-gateway-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-notification-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-notification-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-post-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-post-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itireland-user-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/security/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud/eureka-server/src/main/java" charset="UTF-8" />
@@ -35,8 +39,6 @@
     <file url="file://$PROJECT_DIR$/spring-security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/user-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/user-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/utils/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/utils/src/main/resources" charset="UTF-8" />
   </component>

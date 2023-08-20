@@ -10,16 +10,16 @@
     <name>ITIreland-microservices</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>user-service</module>
-        <module>eureka-server</module>
-        <module>feign-clients-common</module>
-        <module>post-service</module>
-        <module>notification-service</module>
-        <module>apigw-server</module>
-        <module>amqp-common</module>
-        <module>auth-service</module>
-        <module>auth-common</module>
-        <module>exception-common</module>
+        <module>itireland-user-service</module>
+        <module>itireland-eureka-server</module>
+        <module>itireland-feign-api</module>
+        <module>itireland-post-service</module>
+        <module>itireland-notification-service</module>
+        <module>itireland-gateway-server</module>
+        <module>itireland-amqp</module>
+        <module>itireland-auth-service</module>
+        <module>itireland-common</module>
+        <module>itireland-config-server</module>
     </modules>
 
     <properties>

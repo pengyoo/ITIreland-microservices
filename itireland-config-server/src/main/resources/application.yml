@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: native
+  application:
+    name: config-server
+
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/PengYu1990/itireland-config.git
+#          username: PengYu1990
+#          password: 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
+
+server:
+  port: 8888
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
