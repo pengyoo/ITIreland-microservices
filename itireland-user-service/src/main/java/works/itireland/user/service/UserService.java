@@ -1,6 +1,7 @@
-package works.itireland.user;
+package works.itireland.user.service;
 
 import org.springframework.data.domain.Pageable;
+import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
 
@@ -13,17 +14,11 @@ public interface UserService {
 
     UserResponse find(Long userId);
 
-    List<UserResponse> findFollowingUsers(Long userId, Pageable pageable);
 
-    void follow(Long userId, Long followingUserId);
-
-    void unFollow(Long userId, Long followingUserId);
-
-    List<UserResponse> findFollowerUsers(Long userId, Pageable pageable);
-
-    boolean isFollowing(Long userId, Long followingUserId);
 
     UserResponse findByUsername(String username);
 
     UserResponse findByUsernameAndPassword(String username, String password);
+
+    UserLoginResponse login(String username);
 }

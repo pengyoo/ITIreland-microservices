@@ -4,7 +4,7 @@ server:
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/user
+    url: jdbc:postgresql://localhost:5432/itireland_user
     username: itireland
     password: 123
 
@@ -55,5 +55,11 @@ itireland:
   openapi:
     dev-url: http://localhost:8000
     prod-url: https://itireland.herokuapp.com
+
+#resilience4j:
+#  retry:
+#    instances:
+#      sample-api:
+#        maxAttempts: 5
 
 

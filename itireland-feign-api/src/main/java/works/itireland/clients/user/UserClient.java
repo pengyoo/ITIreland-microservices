@@ -1,9 +1,7 @@
 package works.itireland.clients.user;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import works.itireland.clients.R;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 )
 public interface UserClient {
 
-    @GetMapping( "/open/{userId}")
+    @GetMapping( "/{userId}")
     R<UserResponse> find(
             @PathVariable("userId") Long userId);
 
@@ -26,10 +24,14 @@ public interface UserClient {
     R<List<UserResponse>> findFollowingUsers(@PathVariable("userId") Long userId);
 
 
-    @GetMapping("/open/findByUsername/{username}")
+    @GetMapping("/findByUsername/{username}")
     R<UserResponse> findByUsername(@PathVariable("username") String username);
 
-    @GetMapping("/open/login")
-    R<UserResponse> findByUsernameAndPassword(@RequestParam("username") String username,
-                                              @RequestParam("password") String password);
+
+
+    @PostMapping("/login")
+    R<UserLoginResponse> login(@RequestParam("username") String username);
+
+    @PostMapping
+    R<UserResponse> register(@RequestBody UserRegisterRequest registerRequest);
 }

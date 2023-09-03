@@ -1,6 +1,7 @@
-package works.itireland.user;
+package works.itireland.user.service;
 
 
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -8,10 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import works.itireland.amqp.RabbitMQMessageProducer;
-import works.itireland.clients.notification.NotificationClient;
 import works.itireland.clients.notification.NotificationRequest;
+import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.user.domain.User;
+import works.itireland.user.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,11 +26,7 @@ import java.util.function.Function;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final FollowingRepository followingRepository;
-
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
-
-    private final NotificationClient notificationClient;
 
     @Override
     public UserResponse register(UserRegisterRequest userRegisterRequest) {
@@ -41,6 +40,7 @@ public class UserServiceImpl implements UserService{
                 .state(0)
                 .credits(0)
                 .level(0)
+                .role("USER")
                 .build();
 
         user = userRepository.save(user);
@@ -56,17 +56,20 @@ public class UserServiceImpl implements UserService{
                 .build();
 
         // Send Notification through rabbitmq
+        sendMessageToRabbitMQ(notification);
+
+        return getUserResponse(user);
+    }
+
+    // Add resilience4j circuit breaker
+    @Retry(name = "default", fallbackMethod = "")
+    public void sendMessageToRabbitMQ(NotificationRequest notification) {
         log.info("publishing {} to {}", notification, "internal.notification.routing-key");
         // Send message to RabbitMQ
         rabbitMQMessageProducer.publish(notification,
                 "internal.exchange",
                 "internal.notification.routing-key");
         log.info("published {} to {}", notification, "internal.notification.routing-key");
-
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-
-        return userResponse;
     }
 
     @Override
@@ -100,54 +103,7 @@ public class UserServiceImpl implements UserService{
         }).orElseThrow();
     }
 
-    @Override
-    public List<UserResponse> findFollowingUsers(Long userId, Pageable pageable) {
-        User user = userRepository.findById(userId).orElseThrow();
-        return followingRepository.findFollowingsByUser(user, pageable)
-                .stream()
-                .map( user1 ->  getUserResponse(user1)).toList();
-    }
 
-    private UserResponse getUserResponse(User user) {
-        UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
-        return userResponse;
-    }
-
-    @Override
-    public List<UserResponse> findFollowerUsers(Long userId, Pageable pageable) {
-        User user = userRepository.findById(userId).orElseThrow();
-        return followingRepository.findFollowersByUser(user, pageable)
-                .stream()
-                .map(user1 ->getUserResponse(user1))
-                .toList();
-    }
-
-
-
-    @Override
-    public void follow(Long userId, Long followingUserId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        User followingUser = userRepository.findById(followingUserId).orElseThrow();
-        Following following = new Following(followingUser, user, LocalDateTime.now());
-        followingRepository.save(following);
-    }
-
-    @Override
-    public void unFollow(Long userId, Long followingUserId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        User followingUser = userRepository.findById(followingUserId).orElseThrow();
-        Following following = followingRepository.findByFollowingAndFollower(followingUser, user).orElseThrow();
-        followingRepository.delete(following);
-    }
-
-    @Override
-    public boolean isFollowing(Long userId, Long followingUserId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        User followingUser = userRepository.findById(followingUserId).orElseThrow();
-        Following following = followingRepository.findByFollowingAndFollower(followingUser, user).orElse(null);
-        return following != null;
-    }
 
     @Override
     public UserResponse findByUsername(String username) {
@@ -157,9 +113,26 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponse findByUsernameAndPassword(String username, String password) {
-        User user =  userRepository.findByUsernameAndPassword(username, password).orElseThrow();
+        User user = userRepository.findByUsernameAndPassword(username, password).orElseThrow();
         return getUserResponse(user);
     }
 
+    @Override
+    public UserLoginResponse login(String username) {
+        User user = userRepository.findByUsername(username);
+        return getUserLoginResponse(user);
+    }
+
+    private UserResponse getUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
+
+    private UserLoginResponse getUserLoginResponse(User user) {
+        UserLoginResponse userResponse = new UserLoginResponse();
+        BeanUtils.copyProperties(user, userResponse);
+        return userResponse;
+    }
 
 }

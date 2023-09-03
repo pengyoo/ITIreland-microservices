@@ -43,7 +43,7 @@ public class CommentController {
         return R.success(commentService.save(commentRequest));
     }
 
-    @GetMapping("/open/{postId}")
+    @GetMapping("/{postId}")
     public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,
                      @RequestParam(defaultValue = "100", required = false) Integer size,
                      @RequestParam(defaultValue = "ctime", required = false) String sort,
@@ -55,7 +55,7 @@ public class CommentController {
 
     }
 
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/secure/{commentId}")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R delete(HttpServletRequest request, @PathVariable String commentId){
         String username = AuthUtils.getUserName(request);

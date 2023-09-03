@@ -47,7 +47,7 @@ public class PostController {
         return R.success(postResponse);
     }
 
-    @GetMapping("/open/{postId}")
+    @GetMapping("/{postId}")
     public R findById(@PathVariable String postId) {
 
         return R.success(postService.findById(postId));
@@ -73,7 +73,7 @@ public class PostController {
                                             "{\"timestamp\": \"2023-02-18T01:20:33.0725725\","
                                                     + "\"message\": \"Product not found by id : 1\""
                                                     + "}")}))})
-    @GetMapping("/open")
+    @GetMapping("/")
     public R<List<PostResponse>> findAll(@RequestParam(required = false, defaultValue = "0") int page,
                      @RequestParam(required = false, defaultValue = "10") int pageSize){
         log.info("find posts by page:" + page +", pageSize:" +pageSize);
@@ -82,7 +82,7 @@ public class PostController {
     }
 
 
-    @GetMapping("/open/user/{userId}")
+    @GetMapping("/user/{userId}")
     public R<List<PostResponse>> findAllByUserId(@PathVariable Long userId, @RequestParam(required = false, defaultValue = "0") int page,
                                             @RequestParam(required = false, defaultValue = "10") int pageSize){
         log.info("find posts by userId and page:" + page +", pageSize:" +pageSize);
@@ -90,7 +90,7 @@ public class PostController {
         return R.success(postService.findAllByUserId(userId, pageable));
     }
 
-    @GetMapping("/followings")
+    @GetMapping("/secure/followings")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R<List<PostResponse>> findFollowingsByUserId(HttpServletRequest request, @RequestParam(required = false, defaultValue = "0") int page,
                                               @RequestParam(required = false, defaultValue = "10") int pageSize){
@@ -102,7 +102,7 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/secure/{postId}")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R delete(HttpServletRequest request, @PathVariable String postId){
         String username = AuthUtils.getUserName(request);
@@ -111,7 +111,7 @@ public class PostController {
         return R.success(null);
     }
 
-    @PostMapping("/upvote/{postId}")
+    @PostMapping("/secure/upvote/{postId}")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R upvote(HttpServletRequest request, @PathVariable String postId){
         String username = AuthUtils.getUserName(request);
@@ -120,7 +120,7 @@ public class PostController {
         return R.success(upvotes);
     }
 
-    @PostMapping("/unUpvote/{postId}")
+    @PostMapping("/secure/unUpvote/{postId}")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R unUpvote(HttpServletRequest request, @PathVariable String postId){
         String username = AuthUtils.getUserName(request);
@@ -129,7 +129,7 @@ public class PostController {
         return R.success(upvotes);
     }
 
-    @PostMapping("/downvote/{postId}")
+    @PostMapping("/secure/downvote/{postId}")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R downvote(HttpServletRequest request, @PathVariable String postId){
         String username = AuthUtils.getUserName(request);
@@ -138,7 +138,7 @@ public class PostController {
         return R.success(downvotes);
     }
 
-    @PostMapping("/unDownvote/{postId}")
+    @PostMapping("/secure/unDownvote/{postId}")
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
     public R unDownvote(HttpServletRequest request, @PathVariable String postId){
         String username = AuthUtils.getUserName(request);
@@ -146,7 +146,5 @@ public class PostController {
         int downvotes = postService.unDownvote(user.getId(), postId);
         return R.success(downvotes);
     }
-
-
 
 }

@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 
 public class AuthUtils {
@@ -22,11 +24,15 @@ public class AuthUtils {
         return claimsResolver.apply(claims);
     }
 
-    private static Claims extractAllClaims(String token){
+    public static Claims extractAllClaims(String token){
         return Jwts.parserBuilder()
                 .setSigningKey(Constants.SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public static boolean hasCommonElement(List<String> list, String[] array) {
+        return list.stream().anyMatch(element1 -> Arrays.stream(array).anyMatch(element2 -> element2.equals(element1)));
     }
 }

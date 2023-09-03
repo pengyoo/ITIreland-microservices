@@ -1,4 +1,4 @@
-package works.itireland.user;
+package works.itireland.user.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;

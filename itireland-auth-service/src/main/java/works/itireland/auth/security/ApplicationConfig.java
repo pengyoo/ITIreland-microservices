@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import works.itireland.clients.user.UserClient;
+import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserResponse;
 
 
@@ -42,17 +43,32 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return username -> {
-
-            UserResponse userResponse = userClient.findByUsername(username).getData();
-            if(userResponse == null) {
-                throw new UsernameNotFoundException("Username doesn't exist.");
+        return new UserDetailsService() {
+            @Override
+            public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                UserLoginResponse userResponse = userClient.login(username).getData();
+                if(userResponse == null) {
+                    throw new UsernameNotFoundException("Username doesn't exist.");
+                }
+                UserDetails userDetails = new UserDetails();
+                BeanUtils.copyProperties(userResponse, userDetails);
+                userDetails.setRole(Role.valueOf(userResponse.getRole()));
+                return userDetails;
             }
-            UserDetails userDetails = new UserDetails();
-            BeanUtils.copyProperties(userResponse, userDetails);
-            userDetails.setRole(Role.valueOf(userResponse.getRole()));
-            return userDetails;
         };
+
+//        return username -> {
+//
+//            UserLoginResponse userResponse = userClient.login(username).getData();
+//            if(userResponse == null) {
+//                throw new UsernameNotFoundException("Username doesn't exist.");
+//            }
+//            UserDetails userDetails = new UserDetails();
+//            BeanUtils.copyProperties(userResponse, userDetails);
+//            userDetails.setRole(Role.valueOf(userResponse.getRole()));
+//            return userDetails;
+//        };
+
     }
 
 }

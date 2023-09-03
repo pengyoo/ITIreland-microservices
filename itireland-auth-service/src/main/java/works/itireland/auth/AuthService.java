@@ -1,8 +1,11 @@
 package works.itireland.auth;
 
+import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +17,7 @@ import works.itireland.auth.security.UserDetails;
 import works.itireland.clients.auth.AuthResponse;
 import works.itireland.clients.auth.LoginRequest;
 import works.itireland.clients.user.UserClient;
+import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
 
 import java.util.ArrayList;
@@ -28,11 +32,25 @@ public class AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
+    @Resource
+    private AuthenticationManager authenticationManager;
+
+    public UserResponse register(UserRegisterRequest registerRequest) {
+        registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        return userClient.register(registerRequest).getData();
+    }
+
     public AuthResponse login(LoginRequest loginRequest) {
-//        String password = passwordEncoder.encode(loginRequest.getPassword());
-        String password = loginRequest.getPassword();
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+
         UserResponse userResponse =
-                userClient.findByUsernameAndPassword(loginRequest.getUsername(), password)
+                userClient.findByUsername(loginRequest.getUsername())
                         .getData();
         if(userResponse == null) {
             throw new InsufficientAuthenticationException("Invalid username or password!");

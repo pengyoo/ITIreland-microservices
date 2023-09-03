@@ -1,7 +1,8 @@
-package works.itireland.user;
+package works.itireland.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import works.itireland.user.domain.User;
 
 import java.util.Optional;
 
