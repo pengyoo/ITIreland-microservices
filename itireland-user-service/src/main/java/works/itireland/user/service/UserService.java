@@ -1,6 +1,7 @@
 package works.itireland.user.service;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
@@ -21,4 +22,5 @@ public interface UserService {
     UserResponse findByUsernameAndPassword(String username, String password);
 
     UserLoginResponse login(String username);
+
 }

@@ -1,5 +1,7 @@
 package works.itireland.post.post;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,7 @@ import works.itireland.clients.user.UserClient;
 import works.itireland.clients.user.UserResponse;
 import works.itireland.post.category.CategoryRepository;
 import works.itireland.exception.ApiRequestException;
+import works.itireland.post.comment.CommentRepository;
 import works.itireland.post.tag.Tag;
 import works.itireland.post.tag.TagRepository;
 import works.itireland.post.vote.Downvote;
@@ -19,6 +22,7 @@ import works.itireland.post.vote.DownvoteRepository;
 import works.itireland.post.vote.Upvote;
 import works.itireland.post.vote.UpvoteRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +35,17 @@ public class PostServiceImpl implements PostService{
     private final UserClient userClient;
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
 
     private final TagRepository tagRepository;
 
     private final UpvoteRepository upvoteRepository;
     private final DownvoteRepository downvoteRepository;
 
+    private final ObjectMapper objectMapper;
+
     @Override
-    public PostResponse insert(PostRequest postRequest) {
+    public PostResponse save(PostRequest postRequest) {
         Post post = new Post();
         BeanUtils.copyProperties(postRequest, post);
 
@@ -57,8 +64,21 @@ public class PostServiceImpl implements PostService{
             post.setTags(tags);
         }
 
+        // Process JsonContent
+        String contentJsonString = "";
+        try {
+            contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
+        } catch (JsonProcessingException e) {
+            throw new ApiRequestException(e.getMessage());
+        }
+        post.setContent(contentJsonString);
+
+        // Set ctime and utime
+        post.setCtime(LocalDateTime.now());
+        post.setUtime(LocalDateTime.now());
+
         // Store post
-        post = postRepository.insert(post);
+        post = postRepository.save(post);
         PostResponse postResponse = new PostResponse();
         BeanUtils.copyProperties(post, postResponse);
         return postResponse;
@@ -110,6 +130,9 @@ public class PostServiceImpl implements PostService{
             }
             postResponse.setTags(tags);
         }
+
+        // Count comments
+        postResponse.setCommentCount(commentRepository.countByPost(post));
 
         // Process User
         postResponse.setUser(userClient.find(post.getUserId()).getData());

@@ -20,7 +20,12 @@ spring:
   rabbitmq:
     addresses: localhost:5672
 
-
+aws:
+  region: eu-west-1
+  s3:
+    mock: true
+    buckets:
+      image: elasticbeanstalk-eu-west-1-845708981828
 
 
 eureka:

@@ -20,4 +20,5 @@ public interface PostRepository extends MongoRepository<Post, String> {
 
     Page<Post> findByState(Pageable pageable, int state);
 
+
 }

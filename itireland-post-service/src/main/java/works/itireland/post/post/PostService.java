@@ -8,7 +8,7 @@ import works.itireland.clients.post.PostResponse;
 import java.util.List;
 
 public interface PostService {
-    PostResponse insert(PostRequest postRequest);
+    PostResponse save(PostRequest postRequest);
 
     Page<PostResponse> findAll(Pageable pageable);
 

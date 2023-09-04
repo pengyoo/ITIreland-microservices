@@ -42,7 +42,7 @@ public class PostController {
         UserResponse user = userClient.findByUsername(username).getData();
         postRequest.setUserId(user.getId());
         log.info("save post:" + postRequest);
-        PostResponse postResponse =  postService.insert(postRequest);
+        PostResponse postResponse =  postService.save(postRequest);
         postResponse.setUser(user);
         return R.success(postResponse);
     }
@@ -73,7 +73,7 @@ public class PostController {
                                             "{\"timestamp\": \"2023-02-18T01:20:33.0725725\","
                                                     + "\"message\": \"Product not found by id : 1\""
                                                     + "}")}))})
-    @GetMapping("/")
+    @GetMapping
     public R<List<PostResponse>> findAll(@RequestParam(required = false, defaultValue = "0") int page,
                      @RequestParam(required = false, defaultValue = "10") int pageSize){
         log.info("find posts by page:" + page +", pageSize:" +pageSize);

@@ -41,23 +41,14 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        UserResponse userResponse =
-                userClient.findByUsername(loginRequest.getUsername())
-                        .getData();
-        if(userResponse == null) {
-            throw new InsufficientAuthenticationException("Invalid username or password!");
-        }
-        UserDetails userDetails = new UserDetails();
-        BeanUtils.copyProperties(userResponse, userDetails);
-        userDetails.setRole(Role.valueOf(userResponse.getRole()));
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String jwtToken = jwtService.generateToken(userDetails);
         AuthResponse authResponse = getAuthResponse(userDetails);
         authResponse.setToken(jwtToken);

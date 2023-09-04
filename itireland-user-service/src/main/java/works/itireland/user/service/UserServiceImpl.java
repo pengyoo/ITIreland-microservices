@@ -8,16 +8,24 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import works.itireland.amqp.RabbitMQMessageProducer;
 import works.itireland.clients.notification.NotificationRequest;
 import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.exception.ApiRequestException;
+import works.itireland.user.domain.Image;
 import works.itireland.user.domain.User;
+import works.itireland.user.repository.ImageRepository;
 import works.itireland.user.repository.UserRepository;
+import works.itireland.user.s3.S3Buckets;
+import works.itireland.user.s3.S3Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Slf4j
@@ -27,6 +35,11 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
+
+    private final S3Service s3Service;
+    private final S3Buckets s3Buckets;
+
+    private final ImageRepository imageRepository;
 
     @Override
     public UserResponse register(UserRegisterRequest userRegisterRequest) {
@@ -134,5 +147,7 @@ public class UserServiceImpl implements UserService{
         BeanUtils.copyProperties(user, userResponse);
         return userResponse;
     }
+
+
 
 }

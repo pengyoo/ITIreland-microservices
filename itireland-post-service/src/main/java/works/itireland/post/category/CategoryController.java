@@ -30,7 +30,7 @@ public class CategoryController {
         return R.success(categoryService.insert(categoryRequest));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public R<List<CategoryResponse>> findAll(@RequestParam(required = false, defaultValue = "0") int page,
                                       @RequestParam(required = false, defaultValue = "10") int pageSize){
         Pageable pageable = PageRequest.of(page, pageSize);

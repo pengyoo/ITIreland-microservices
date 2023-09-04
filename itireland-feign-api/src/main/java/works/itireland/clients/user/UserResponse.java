@@ -1,6 +1,7 @@
 package works.itireland.clients.user;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class UserResponse {
     private int level;
     private String headShotUrl;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime ctime;
 
     private String location;

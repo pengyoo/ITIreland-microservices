@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class CommentRequest {
 
+    private String id;
+
     @NotBlank(message = "Comment content can't be null")
     private String content;
 

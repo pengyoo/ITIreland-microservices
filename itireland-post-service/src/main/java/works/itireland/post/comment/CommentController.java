@@ -43,11 +43,11 @@ public class CommentController {
         return R.success(commentService.save(commentRequest));
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping
     public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,
                      @RequestParam(defaultValue = "100", required = false) Integer size,
                      @RequestParam(defaultValue = "ctime", required = false) String sort,
-                     @PathVariable String postId
+                     @RequestParam String postId
     ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         List<CommentResponse> comments = commentService.findAllByPostId(postId, pageable);
