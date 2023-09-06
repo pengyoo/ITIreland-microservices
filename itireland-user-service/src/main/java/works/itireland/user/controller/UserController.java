@@ -34,6 +34,7 @@ public class UserController {
 
     @Hidden
     @PostMapping
+    @PatchMapping
     public R<UserResponse> register(@RequestBody UserRegisterRequest userRegisterRequest){
         log.info("register user {}", userRegisterRequest);
         UserResponse userResponse = userService.register(userRegisterRequest);

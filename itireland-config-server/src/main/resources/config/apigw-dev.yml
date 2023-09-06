@@ -32,22 +32,28 @@ spring:
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth/v3/api-docs, /api/v1/auth/**
+        - id: admin
+          uri: lb://ADMIN-SERVICE
+          predicates:
+            - Path=/admin/v3/api-docs, /api/v1/admin/**
       ##允许请求跨域
       globalcors:
         add-to-simple-url-handler-mapping: true # 允许Options请求询问是否允许跨域
         cors-configurations:
           '[/**]':
             allowedOrigins:
-              - "http://USER-SERVICE:8083"
-              - "http://POST-SERVICE:8081"
-              - "http://NOTIFICATION-SERVICE:8082"
-              - "http://AUTH-SERVICE:8084"
+              - "http://USER-SERVICE:8000"
+              - "http://POST-SERVICE:7000"
+              - "http://ADMIN-SERVICE:8500"
+              - "http://NOTIFICATION-SERVICE:6000"
+              - "http://AUTH-SERVICE:9000"
               - "http://localhost:5173"
             allowedMethods:
               - "GET"
               - "POST"
               - "DELETE"
               - "PUT"
+              - "PATCH"
               - "OPTIONS"
             allowedHeaders: "*"
             allowCredentials: true  # 允许cookie
@@ -74,6 +80,9 @@ springdoc:
       - url: /auth/v3/api-docs
         name: Auth Service
 #        primaryName: Auth Service
+      - url: /admin/v3/api-docs
+        name: Admin Service
+#        primaryName: Auth Service
 
 management:
   tracing:
@@ -82,5 +91,7 @@ management:
       probability: 1.0
 
 logging:
+  level:
+    root: debug
   pattern:
     level: "trace_id=%mdc{traceId} span_id=%mdc{spanId} trace_flags=%mdc{traceFlags} %p"

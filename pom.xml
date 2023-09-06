@@ -20,6 +20,7 @@
         <module>itireland-auth-service</module>
         <module>itireland-common</module>
         <module>itireland-config-server</module>
+        <module>itireland-admin-service</module>
     </modules>
 
     <properties>

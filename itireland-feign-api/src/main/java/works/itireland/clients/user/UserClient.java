@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import works.itireland.clients.R;
 
+import javax.xml.stream.events.Characters;
 import java.util.List;
 
 @FeignClient(
@@ -33,5 +34,11 @@ public interface UserClient {
     R<UserLoginResponse> login(@RequestParam("username") String username);
 
     @PostMapping
+    @PatchMapping
     R<UserResponse> register(@RequestBody UserRegisterRequest registerRequest);
+
+    @GetMapping
+    public R<List<UserResponse>> findAll(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                         @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize);
+
 }

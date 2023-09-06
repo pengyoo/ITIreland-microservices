@@ -18,8 +18,10 @@ public class PostRequest {
     private List<String> tags;
     private String category;
 
-    @JsonProperty("contentJson")
-    private JsonNode contentNode;
+//    @JsonProperty("contentJson")
+//    private JsonNode contentNode;
+
+    private String content;
 
 }
 

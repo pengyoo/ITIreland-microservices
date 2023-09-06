@@ -65,13 +65,13 @@ public class PostServiceImpl implements PostService{
         }
 
         // Process JsonContent
-        String contentJsonString = "";
-        try {
-            contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
-        } catch (JsonProcessingException e) {
-            throw new ApiRequestException(e.getMessage());
-        }
-        post.setContent(contentJsonString);
+//        String contentJsonString = "";
+//        try {
+//            contentJsonString = objectMapper.writeValueAsString(postRequest.getContentNode());
+//        } catch (JsonProcessingException e) {
+//            throw new ApiRequestException(e.getMessage());
+//        }
+//        post.setContent(contentJsonString);
 
         // Set ctime and utime
         post.setCtime(LocalDateTime.now());

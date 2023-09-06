@@ -48,7 +48,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public R findById(@PathVariable String postId) {
+    public R<PostResponse> findById(@PathVariable String postId) {
 
         return R.success(postService.findById(postId));
 

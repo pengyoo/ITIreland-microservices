@@ -1,12 +1,12 @@
 spring:
   application:
-    name: apigw
-#  config:
-#    import: "optional:configserver:http://localhost:8888/"
+    name: admin-service
+#    config:
+#      import: "optional:configserver:http://localhost:8888/"
 
   cloud:
     config:
-      name: apigw
+      name: admin-service
       profile: dev
       label: dev
       discovery:
@@ -18,8 +18,11 @@ spring:
         max-interval: 15000
         initial-interval: 10000
 
+#  main:
+#    allow-bean-definition-overriding: true
+
 management:
   endpoints:
     web:
       exposure:
-        include: refresh
+        include: "refresh"
