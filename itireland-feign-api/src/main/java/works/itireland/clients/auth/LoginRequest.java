@@ -10,6 +10,9 @@ public class LoginRequest {
     @NotBlank(message = "Username can't be null!")
     private String username;
 
+    @NotBlank(message = "Username can't be null!")
+    private String email;
+
     @NotBlank(message = "Password can't be null!")
     private String password;
 }

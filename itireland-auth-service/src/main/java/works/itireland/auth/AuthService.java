@@ -19,6 +19,7 @@ import works.itireland.clients.auth.LoginRequest;
 import works.itireland.clients.user.UserClient;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.exception.BadCredentialException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,12 +42,17 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
                             loginRequest.getPassword()
                     )
             );
+        } catch (Exception e) {
+            throw new BadCredentialException("Invalid username or password");
+        }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String jwtToken = jwtService.generateToken(userDetails);

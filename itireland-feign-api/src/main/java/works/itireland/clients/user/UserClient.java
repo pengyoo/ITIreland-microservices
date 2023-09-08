@@ -1,5 +1,6 @@
 package works.itireland.clients.user;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import works.itireland.clients.R;
@@ -10,6 +11,7 @@ import java.util.List;
 @FeignClient(
         value = "user-service",
         path = "api/v1/users"
+
 )
 public interface UserClient {
 
@@ -34,11 +36,18 @@ public interface UserClient {
     R<UserLoginResponse> login(@RequestParam("username") String username);
 
     @PostMapping
-    @PatchMapping
     R<UserResponse> register(@RequestBody UserRegisterRequest registerRequest);
+
+    @PostMapping("/update")
+    public R<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest);
 
     @GetMapping
     public R<List<UserResponse>> findAll(@RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                          @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize);
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable(value = "id") Long id);
+
+    @GetMapping("/count")
+    public Long count();
 }

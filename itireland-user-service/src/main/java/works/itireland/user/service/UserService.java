@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.clients.user.UserUpdateRequest;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface UserService {
 
     UserLoginResponse login(String username);
 
+
+    UserResponse update(UserUpdateRequest userUpdateRequest);
+
+    void delete(long id) throws Throwable;
+
+    long count();
 }

@@ -25,11 +25,11 @@ public class NotificationServiceImpl implements NotificationService{
         notification = notificationRepository.save(notification);
 
         // Send Notification Email
-        try {
-            emailService.sendEmail(notification.getToUserEmail(), notification.getMessage(), notification.getMessage());
-        } catch (MessagingException e){
-            log.error("Sending Email Error: " + e.getMessage());
-        }
+//        try {
+//            emailService.sendEmail(notification.getToUserEmail(), notification.getMessage(), notification.getMessage());
+//        } catch (MessagingException e){
+//            log.error("Sending Email Error: " + e.getMessage());
+//        }
         NotificationResponse notificationResponse = new NotificationResponse();
         BeanUtils.copyProperties(notification, notificationResponse);
         return notificationResponse;

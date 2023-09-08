@@ -3,6 +3,7 @@ package works.itireland.user.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -16,11 +17,13 @@ import works.itireland.clients.R;
 import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.clients.user.UserUpdateRequest;
 import works.itireland.user.dto.ImageUploadResponse;
 import works.itireland.user.service.ImageService;
 import works.itireland.user.service.UserService;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -34,11 +37,25 @@ public class UserController {
 
     @Hidden
     @PostMapping
-    @PatchMapping
     public R<UserResponse> register(@RequestBody UserRegisterRequest userRegisterRequest){
         log.info("register user {}", userRegisterRequest);
         UserResponse userResponse = userService.register(userRegisterRequest);
         return R.success(userResponse);
+    }
+
+    @Hidden
+    @PostMapping("/update")
+    public R<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest){
+        log.info("update user {}", userUpdateRequest);
+        UserResponse userResponse = userService.update(userUpdateRequest);
+        return R.success(userResponse);
+    }
+
+    @Hidden
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) throws Throwable {
+        log.info("delete user {}", id);
+        userService.delete(id);
     }
 
     @Hidden
@@ -64,10 +81,18 @@ public class UserController {
 
     @GetMapping
     public R<List<UserResponse>> findAll(@RequestParam(required = false, defaultValue = "0") int page,
-                                   @RequestParam(required = false, defaultValue = "10") int pageSize){
+                                         @RequestParam(required = false, defaultValue = "10") int pageSize, HttpServletResponse httpResponse){
         log.info("find users by page: {}, pageSize: {}", page, pageSize);
         Pageable pageable = PageRequest.of(page, pageSize);
+        long count = userService.count();
+        httpResponse.addHeader("x-total-count", String.valueOf(count));
+        httpResponse.addHeader("Access-Control-Expose-Headers", "x-total-count");
         return R.success(userService.findAll(pageable));
+    }
+
+    @GetMapping("/count")
+    public Long count() {
+        return userService.count();
     }
 
     @PostMapping(value = "/secure/profile-image-upload",

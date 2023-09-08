@@ -18,7 +18,7 @@ import java.util.List;
 public class PostController {
     private final PostClient postClient;
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     public ResponseEntity<PostResponse> save(@RequestBody PostRequest postRequest, HttpServletRequest request) {
         return new ResponseEntity<PostResponse>(postClient.save(postRequest).getData(), HttpStatus.OK);
     }

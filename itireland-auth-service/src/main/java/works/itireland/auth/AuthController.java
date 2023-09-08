@@ -5,12 +5,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import works.itireland.auth.exception.ValidationException;
 import works.itireland.clients.R;
 import works.itireland.clients.auth.AuthResponse;
 import works.itireland.clients.auth.LoginRequest;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.exception.ValidationException;
 
 import java.util.List;
 

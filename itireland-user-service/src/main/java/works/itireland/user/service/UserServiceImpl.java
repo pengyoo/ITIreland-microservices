@@ -14,7 +14,9 @@ import works.itireland.clients.notification.NotificationRequest;
 import works.itireland.clients.user.UserLoginResponse;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.clients.user.UserUpdateRequest;
 import works.itireland.exception.ApiRequestException;
+import works.itireland.exception.ResourceNotFoundException;
 import works.itireland.user.domain.Image;
 import works.itireland.user.domain.User;
 import works.itireland.user.repository.ImageRepository;
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Slf4j
 @Service
@@ -134,6 +137,26 @@ public class UserServiceImpl implements UserService{
     public UserLoginResponse login(String username) {
         User user = userRepository.findByUsername(username);
         return getUserLoginResponse(user);
+    }
+
+    public UserResponse update(UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(userUpdateRequest.getId()).orElseThrow();
+        BeanUtils.copyProperties(userUpdateRequest, user);
+        user = userRepository.save(user);
+        return getUserResponse(user);
+    }
+
+    @Override
+    public void delete(long id) throws Throwable {
+        User user = userRepository.findById(id).orElseThrow((Supplier<Throwable>)
+                () -> new ResourceNotFoundException("User id {} not exist".formatted(id)));
+        user.setState(-1);
+        userRepository.save(user);
+    }
+
+    @Override
+    public long count() {
+        return userRepository.count();
     }
 
     private UserResponse getUserResponse(User user) {

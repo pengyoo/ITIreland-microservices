@@ -26,6 +26,8 @@ public class DefaultExceptionHandler {
 
 
 
+
+
     @ExceptionHandler(ApiRequestException.class)
     public ResponseEntity<ApiExceptionResponse> handleException(ApiRequestException e,
                                                                 HttpServletRequest request) {
@@ -36,7 +38,7 @@ public class DefaultExceptionHandler {
                 LocalDateTime.now()
         );
 
-        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -49,7 +51,7 @@ public class DefaultExceptionHandler {
                 LocalDateTime.now()
         );
 
-        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalAccessException.class)
@@ -62,19 +64,32 @@ public class DefaultExceptionHandler {
                 LocalDateTime.now()
         );
 
-        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiExceptionResponse> handleException(Exception e,
-                                                    HttpServletRequest request) {
+    @ExceptionHandler(BadCredentialException.class)
+    public ResponseEntity<ApiExceptionResponse> handleException(BadCredentialException e,
+                                                                HttpServletRequest request) {
         ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse(
                 request.getRequestURI(),
                 e.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now()
         );
 
-        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ApiExceptionResponse> handleException(Exception e,
+//                                                    HttpServletRequest request) {
+//        ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse(
+//                request.getRequestURI(),
+//                e.getMessage(),
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                LocalDateTime.now()
+//        );
+//
+//        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }
