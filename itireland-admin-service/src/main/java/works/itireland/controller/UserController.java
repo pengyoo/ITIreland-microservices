@@ -25,7 +25,7 @@ public class UserController {
     public List<UserResponse> findAll(@RequestParam(required = false, defaultValue = "0") int _start,
                                       @RequestParam(required = false, defaultValue = "20") int _end, HttpServletResponse response){
 
-        int pageSize = _end - _start + 1;
+        int pageSize = _end - _start;
         int page = _start / (pageSize - 1);
 
         R<List<UserResponse>> result = userClient.findAll(page, pageSize);

@@ -11,4 +11,10 @@ public interface CommentService {
     List<CommentResponse> findAllByPostId(String postId, Pageable pageable);
 
     void delete(Long userId, String commentId);
+
+    long count();
+
+    List<CommentResponse> findAll(Pageable pageable);
+
+    CommentResponse findById(String id);
 }

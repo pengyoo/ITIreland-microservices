@@ -11,4 +11,8 @@ public interface CategoryService {
     CategoryResponse insert(CategoryRequest postRequest);
 
     Page<CategoryResponse> findAll(Pageable pageable);
+
+    CategoryResponse findById(String id);
+
+    long count();
 }

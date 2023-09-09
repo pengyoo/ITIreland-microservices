@@ -82,6 +82,12 @@ public class PostController {
     }
 
 
+    @GetMapping("/count")
+    public long count() {
+        return postService.count();
+    }
+
+
     @GetMapping("/user/{userId}")
     public R<List<PostResponse>> findAllByUserId(@PathVariable Long userId, @RequestParam(required = false, defaultValue = "0") int page,
                                             @RequestParam(required = false, defaultValue = "10") int pageSize){

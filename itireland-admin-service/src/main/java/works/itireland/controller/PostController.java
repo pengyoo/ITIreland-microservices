@@ -1,6 +1,7 @@
 package works.itireland.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -19,8 +20,8 @@ public class PostController {
     private final PostClient postClient;
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostResponse> save(@RequestBody PostRequest postRequest, HttpServletRequest request) {
-        return new ResponseEntity<PostResponse>(postClient.save(postRequest).getData(), HttpStatus.OK);
+    public ResponseEntity<PostResponse> update(@RequestBody PostRequest postRequest, HttpServletRequest request) {
+        return new ResponseEntity<>(postClient.save(postRequest).getData(), HttpStatus.OK);
     }
 
     @GetMapping("/{postId}")
@@ -30,9 +31,14 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<List<PostResponse>> findAll(@RequestParam(required = false, defaultValue = "0") int _start,
-                                                      @RequestParam(required = false, defaultValue = "20") int _end){
-        int pageSize = _end - _start + 1;
+                                                      @RequestParam(required = false, defaultValue = "20") int _end,
+                                                      HttpServletResponse response){
+        int pageSize = _end - _start;
         int page = _start / (pageSize - 1);
+        String count = String.valueOf(postClient.count());
+        response.addHeader("x-total-count", count);
+        response.addHeader("Access-Control-Expose-Headers", "x-total-count");
+
         return new ResponseEntity<>(postClient.findAll(page, pageSize).getData(), HttpStatus.OK);
     }
 

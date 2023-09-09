@@ -36,4 +36,15 @@ public class CategoryController {
         Pageable pageable = PageRequest.of(page, pageSize);
         return R.success(categoryService.findAll(pageable).toList());
     }
+
+    @GetMapping("/{id}")
+    public R<CategoryResponse> get(@PathVariable String id){
+        log.info("get category:" + id);
+        return R.success(categoryService.findById(id));
+    }
+
+    @GetMapping("/count")
+    public long count(){
+        return categoryService.count();
+    }
 }

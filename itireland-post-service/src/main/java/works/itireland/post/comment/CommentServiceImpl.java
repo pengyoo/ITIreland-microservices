@@ -55,6 +55,23 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.save(comment);
     }
 
+    @Override
+    public long count() {
+        return commentRepository.count();
+    }
+
+    @Override
+    public List<CommentResponse> findAll(Pageable pageable) {
+        return commentRepository.findAll(pageable).map(comment ->
+            getCommentResponse(comment)
+        ).toList();
+    }
+
+    @Override
+    public CommentResponse findById(String id) {
+        return commentRepository.findById(id).map(comment -> getCommentResponse(comment)).orElseThrow();
+    }
+
     private Comment getComment(CommentRequest commentRequest){
 
         Comment comment = new Comment();

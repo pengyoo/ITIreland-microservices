@@ -14,19 +14,33 @@ public class CategoryServiceImpl implements CategoryService{
     private final CategoryRepository categoryRepository;
     @Override
     public CategoryResponse insert(CategoryRequest postRequest) {
-        Category category = new Category(postRequest.getCategory(), postRequest.getState(), postRequest.getSort());
+        Category category = new Category(postRequest.getId(), postRequest.getState(), postRequest.getSort());
         category = categoryRepository.insert(category);
-        return new CategoryResponse(category.getCategory(), category.getState(), category.getSort());
+        return new CategoryResponse(category.getId(), category.getState(), category.getSort());
     }
 
     @Override
     public Page<CategoryResponse> findAll(Pageable pageable) {
         return categoryRepository.findAll(pageable).map((category ->
-             CategoryResponse.builder()
-                    .category(category.getCategory())
-                    .state(category.getState())
-                    .sort(category.getSort())
-                    .build()
+            getCategoryReponse(category)
         ));
+    }
+
+    @Override
+    public CategoryResponse findById(String id) {
+        return categoryRepository.findById(id).map(category -> getCategoryReponse(category)).orElseThrow();
+    }
+
+    @Override
+    public long count() {
+        return categoryRepository.count();
+    }
+
+    public CategoryResponse getCategoryReponse(Category category){
+        return CategoryResponse.builder()
+                .id(category.getId())
+                .state(category.getState())
+                .sort(category.getSort())
+                .build();
     }
 }

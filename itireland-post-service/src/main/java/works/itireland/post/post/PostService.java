@@ -27,4 +27,6 @@ public interface PostService {
     int downvote(Long userId, String postId);
 
     int unDownvote(Long userId, String postId);
+
+    long count();
 }

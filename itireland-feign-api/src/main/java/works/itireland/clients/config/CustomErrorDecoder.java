@@ -11,7 +11,7 @@ public class CustomErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         switch (response.status()){
             case 400:
-                return new BadCredentialException("Invalid username or password");
+                return new BadCredentialException("Bad credential!");
             case 404:
                 return new ResourceNotFoundException("Resource not found");
             case 503:

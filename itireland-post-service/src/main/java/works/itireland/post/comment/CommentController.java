@@ -29,7 +29,7 @@ public class CommentController {
     private final CommentService commentService;
     @PostMapping
     @AuthorizedRoles(roles = {"ROLE_USER", "ROLE_ADMIN"})
-    public R save(HttpServletRequest request, @Validated @RequestBody CommentRequest commentRequest, BindingResult errors){
+    public R<CommentResponse> save(HttpServletRequest request, @Validated @RequestBody CommentRequest commentRequest, BindingResult errors){
 
         //Throw Validation Exception
         if (errors.hasErrors()) {
@@ -44,13 +44,24 @@ public class CommentController {
     }
 
     @GetMapping
-    public R findAll(@RequestParam(defaultValue = "0", required = false) Integer page,
+    public R<List<CommentResponse>> findAll(@RequestParam(defaultValue = "0", required = false) Integer page,
                      @RequestParam(defaultValue = "100", required = false) Integer size,
                      @RequestParam(defaultValue = "ctime", required = false) String sort,
                      @RequestParam String postId
     ){
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
         List<CommentResponse> comments = commentService.findAllByPostId(postId, pageable);
+        return R.success(comments);
+
+    }
+
+    @GetMapping("/all")
+    public R<List<CommentResponse>> findAllComments(@RequestParam(defaultValue = "0", required = false) Integer page,
+                                            @RequestParam(defaultValue = "100", required = false) Integer size,
+                                            @RequestParam(defaultValue = "ctime", required = false) String sort
+    ){
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        List<CommentResponse> comments = commentService.findAll(pageable);
         return R.success(comments);
 
     }
@@ -62,5 +73,16 @@ public class CommentController {
         UserResponse user = userClient.findByUsername(username).getData();
         commentService.delete(user.getId(), commentId);
         return R.success(null);
+    }
+
+    @GetMapping("/count")
+    public long count() {
+        return commentService.count();
+    }
+
+
+    @GetMapping("/{id}")
+    public R<CommentResponse> getById(@PathVariable String id) {
+        return R.success(commentService.findById(id));
     }
 }

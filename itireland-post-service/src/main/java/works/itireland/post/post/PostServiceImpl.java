@@ -1,6 +1,5 @@
 package works.itireland.post.post;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -120,7 +119,7 @@ public class PostServiceImpl implements PostService{
         BeanUtils.copyProperties(post, postResponse);
 
         // Process Category
-        postResponse.setCategory(post.getCategory().getCategory());
+        postResponse.setCategory(post.getCategory().getId());
 
         // Process Tags
         if(post.getTags() != null) {
@@ -213,5 +212,10 @@ public class PostServiceImpl implements PostService{
         post.setDownvotes(post.getDownvotes()-1);
         postRepository.save(post);
         return post.getDownvotes();
+    }
+
+    @Override
+    public long count() {
+        return postRepository.count();
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Category {
 
     @Id
-    private String category;
+    private String id;
 
     // 0 normal, -1 delete
     private int state;
