@@ -29,6 +29,13 @@
             <groupId>works.itireland</groupId>
             <artifactId>itireland-feign-api</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <!-- exclude spring boot web starter -->
+            <exclusions>
+                <exclusion>
+                    <groupId>works.itireland</groupId>
+                    <artifactId>itireland-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -56,11 +63,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-            <version>2.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.0.4</version>
         </dependency>
     </dependencies>
     <profiles>
