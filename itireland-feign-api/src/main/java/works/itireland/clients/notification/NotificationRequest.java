@@ -12,15 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationRequest {
+        private Long id;
         private String message;
-        private LocalDateTime ctime;
 
         // 0 unread, -1 read
         private int state;
         private String fromUsername;
-        private Long toUserId;
-        private String toUserEmail;
-        private String toUserName;
+        private String toUsername;
 
         // 0: System, 1: User
         private int type;

@@ -30,7 +30,7 @@ spring:
           starttls:
             enable: true
 server:
-  port: 6000
+  port: 11000
 
 eureka:
   client:
@@ -63,3 +63,15 @@ rabbitmq:
     notification: notification.queue
   routing-keys:
     internal-notification: internal.notification.routing-key
+
+openapi:
+  service:
+    title: notification-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8080 #api gateway url
+
+springdoc:
+  api-docs:
+    path: /notifications/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /notifications/swagger-ui.html

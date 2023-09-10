@@ -12,10 +12,11 @@ import java.util.Properties;
 @SpringBootApplication(scanBasePackages =
         {
                 "works.itireland.amqp",
-                "works.itireland.notification"
+                "works.itireland.notification",
+                "works.itireland.auth"
         }
 )
-@EnableFeignClients
+@EnableFeignClients(basePackages = "works.itireland.clients")
 public class NotificationApp
 {
     public static void main( String[] args )

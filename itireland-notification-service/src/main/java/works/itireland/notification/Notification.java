@@ -27,6 +27,8 @@ public class Notification {
 
     private String toUserEmail;
 
+    private String toUsername;
+
     // 0: System, 1: User
     private int type;
 }

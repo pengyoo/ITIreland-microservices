@@ -60,14 +60,12 @@ public class UserServiceImpl implements UserService{
                 .build();
 
         user = userRepository.save(user);
-        var notification = NotificationRequest.builder()
-                .fromUsername(null)
+        NotificationRequest notification = NotificationRequest.builder()
+                .id(null)
+                .fromUsername("SYSTEM")
                 .message("Welcome to IT Ireland!")
-                .toUserId(user.getId())
-                .toUserEmail(user.getEmail())
-                .toUserName(user.getUsername())
+                .toUsername(user.getUsername())
                 .type(0)
-                .ctime(LocalDateTime.now())
                 .state(0)
                 .build();
 
