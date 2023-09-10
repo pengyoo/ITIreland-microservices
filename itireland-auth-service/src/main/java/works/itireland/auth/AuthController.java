@@ -10,6 +10,7 @@ import works.itireland.clients.auth.AuthResponse;
 import works.itireland.clients.auth.LoginRequest;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.clients.user.UserUpdateRequest;
 import works.itireland.exception.ValidationException;
 
 import java.util.List;
@@ -33,6 +34,11 @@ public class AuthController {
     @PostMapping("/register")
     public R<UserResponse> register(@RequestBody UserRegisterRequest userRegisterRequest){
         UserResponse userResponse = authService.register(userRegisterRequest);
+        return R.success(userResponse);
+    }
+    @PostMapping("/update")
+    public R<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest){
+        UserResponse userResponse = authService.update(userUpdateRequest);
         return R.success(userResponse);
     }
 

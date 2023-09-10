@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import works.itireland.clients.R;
 import works.itireland.clients.config.FeignClientConfig;
+import works.itireland.clients.user.UserRegisterRequest;
+import works.itireland.clients.user.UserResponse;
+import works.itireland.clients.user.UserUpdateRequest;
 
 import java.util.List;
 
@@ -20,9 +23,11 @@ public interface AuthClient {
     @PostMapping("/login")
     R<AuthResponse> login(@RequestBody LoginRequest loginRequest);
 
+    @PostMapping("/register")
+    public R<UserResponse> register(@RequestBody UserRegisterRequest userRegisterRequest);
 
-    @GetMapping("/check")
-    public R<AuthResponse> check(@RequestHeader("Authorization") String token);
+    @PostMapping("/update")
+    public R<UserResponse> update(@RequestBody UserUpdateRequest userUpdateRequest);
 
     @GetMapping("/roles")
     public R<List<String>> roles();

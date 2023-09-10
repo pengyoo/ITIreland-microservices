@@ -23,6 +23,7 @@ import works.itireland.user.repository.ImageRepository;
 import works.itireland.user.repository.UserRepository;
 import works.itireland.user.s3.S3Buckets;
 import works.itireland.user.s3.S3Service;
+import works.itireland.utils.BeanCopyUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService{
             @Override
             public UserResponse apply(User user) {
                 UserResponse userResponse = new UserResponse();
-                BeanUtils.copyProperties(user, userResponse);
+                BeanCopyUtils.copyNonNullProperties(user, userResponse);
                 return userResponse;
             }
         }).orElseThrow();
@@ -139,7 +140,7 @@ public class UserServiceImpl implements UserService{
 
     public UserResponse update(UserUpdateRequest userUpdateRequest) {
         User user = userRepository.findById(userUpdateRequest.getId()).orElseThrow();
-        BeanUtils.copyProperties(userUpdateRequest, user);
+        BeanCopyUtils.copyNonNullProperties(userUpdateRequest, user);
         user = userRepository.save(user);
         return getUserResponse(user);
     }
@@ -159,13 +160,13 @@ public class UserServiceImpl implements UserService{
 
     private UserResponse getUserResponse(User user) {
         UserResponse userResponse = new UserResponse();
-        BeanUtils.copyProperties(user, userResponse);
+        BeanCopyUtils.copyNonNullProperties(user, userResponse);
         return userResponse;
     }
 
     private UserLoginResponse getUserLoginResponse(User user) {
         UserLoginResponse userResponse = new UserLoginResponse();
-        BeanUtils.copyProperties(user, userResponse);
+        BeanCopyUtils.copyNonNullProperties(user, userResponse);
         return userResponse;
     }
 

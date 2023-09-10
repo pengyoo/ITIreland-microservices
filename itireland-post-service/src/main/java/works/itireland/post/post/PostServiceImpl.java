@@ -3,7 +3,6 @@ package works.itireland.post.post;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,7 @@ import works.itireland.post.vote.Downvote;
 import works.itireland.post.vote.DownvoteRepository;
 import works.itireland.post.vote.Upvote;
 import works.itireland.post.vote.UpvoteRepository;
+import works.itireland.utils.BeanCopyUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService{
     @Override
     public PostResponse save(PostRequest postRequest) {
         Post post = new Post();
-        BeanUtils.copyProperties(postRequest, post);
+        BeanCopyUtils.copyNonNullProperties(postRequest, post);
 
         // Process Category
         post.setCategory(categoryRepository.findById(postRequest.getCategory()).get());
@@ -79,7 +79,7 @@ public class PostServiceImpl implements PostService{
         // Store post
         post = postRepository.save(post);
         PostResponse postResponse = new PostResponse();
-        BeanUtils.copyProperties(post, postResponse);
+        BeanCopyUtils.copyNonNullProperties(post, postResponse);
         return postResponse;
     }
 
@@ -116,7 +116,7 @@ public class PostServiceImpl implements PostService{
      */
     private PostResponse getPostResponse(Post post) {
         PostResponse postResponse = new PostResponse();
-        BeanUtils.copyProperties(post, postResponse);
+        BeanCopyUtils.copyNonNullProperties(post, postResponse);
 
         // Process Category
         postResponse.setCategory(post.getCategory().getId());

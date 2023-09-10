@@ -19,7 +19,9 @@ import works.itireland.clients.auth.LoginRequest;
 import works.itireland.clients.user.UserClient;
 import works.itireland.clients.user.UserRegisterRequest;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.clients.user.UserUpdateRequest;
 import works.itireland.exception.BadCredentialException;
+import works.itireland.utils.BeanCopyUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,7 +65,7 @@ public class AuthService {
 
     private AuthResponse getAuthResponse(UserDetails userDetails) {
         AuthResponse authResponse = new AuthResponse();
-        BeanUtils.copyProperties(userDetails, authResponse);
+        BeanCopyUtils.copyNonNullProperties(userDetails, authResponse);
         return authResponse;
     }
 
@@ -75,5 +77,11 @@ public class AuthService {
             list.add(authority.getAuthority());
         }
         return list;
+    }
+
+    public UserResponse update(UserUpdateRequest userUpdateRequest) {
+        if(userUpdateRequest.getPassword() != null && !userUpdateRequest.getPassword().equals(""))
+            userUpdateRequest.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+        return userClient.update(userUpdateRequest).getData();
     }
 }

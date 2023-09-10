@@ -12,6 +12,7 @@ import works.itireland.clients.user.UserResponse;
 import works.itireland.exception.ApiRequestException;
 import works.itireland.post.post.Post;
 import works.itireland.post.post.PostRepository;
+import works.itireland.utils.BeanCopyUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class CommentServiceImpl implements CommentService{
     private Comment getComment(CommentRequest commentRequest){
 
         Comment comment = new Comment();
-        BeanUtils.copyProperties(commentRequest, comment);
+        BeanCopyUtils.copyNonNullProperties(commentRequest, comment);
 
         // Process Post
         Post post = postRepository.findById(commentRequest.getPostId()).orElseThrow();
@@ -92,7 +93,7 @@ public class CommentServiceImpl implements CommentService{
 
     private CommentResponse getCommentResponse(Comment comment){
         CommentResponse commentResponse = new CommentResponse();
-        BeanUtils.copyProperties(comment, commentResponse);
+        BeanCopyUtils.copyNonNullProperties(comment, commentResponse);
 
         // Process postId
         commentResponse.setPostId(comment.getPost().getId());
@@ -116,7 +117,7 @@ public class CommentServiceImpl implements CommentService{
         }
 
         List<CommentResponse> list = new ArrayList<>();
-        BeanUtils.copyProperties(comment, commentResponse);
+        BeanCopyUtils.copyNonNullProperties(comment, commentResponse);
         for(Comment c : comment.getComments()){
             CommentResponse cr = new CommentResponse();
             UserResponse userResponse = userClient.find(c.getUserId()).getData();

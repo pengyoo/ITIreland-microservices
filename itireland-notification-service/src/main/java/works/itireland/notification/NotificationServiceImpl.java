@@ -12,6 +12,7 @@ import works.itireland.clients.notification.NotificationRequest;
 import works.itireland.clients.notification.NotificationResponse;
 import works.itireland.clients.user.UserClient;
 import works.itireland.clients.user.UserResponse;
+import works.itireland.utils.BeanCopyUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService{
     @Override
     public NotificationResponse send(NotificationRequest request) {
         Notification notification = new Notification();
-        BeanUtils.copyProperties(request, notification);
+        BeanCopyUtils.copyNonNullProperties(request, notification);
 
 
 
@@ -51,7 +52,7 @@ public class NotificationServiceImpl implements NotificationService{
 
     private static NotificationResponse getNotificationResponse(Notification notification) {
         NotificationResponse notificationResponse = new NotificationResponse();
-        BeanUtils.copyProperties(notification, notificationResponse);
+        BeanCopyUtils.copyNonNullProperties(notification, notificationResponse);
         return notificationResponse;
     }
 
