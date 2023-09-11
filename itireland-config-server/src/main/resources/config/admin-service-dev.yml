@@ -49,7 +49,7 @@ logging:
 
 openapi:
   service:
-    title: user-service doc #title that you will want to display in the swagger ui
+    title: Admin Service Doc #title that you will want to display in the swagger ui
     version: 1.0.0
     url: http://localhost:8080 #api gateway url
 springdoc:

@@ -27,7 +27,7 @@ logging:
 
 openapi:
   service:
-    title: auth-service doc #title that you will want to display in the swagger ui
+    title: Auth Service Doc #title that you will want to display in the swagger ui
     version: 1.0.0
     url: http://localhost:8080 #api gateway url
 
