@@ -1,9 +1,6 @@
 # IT Ireland: A Twitter-like Social Media Website for IT Practitioners
 IT Ireland is a social media platform developed specifically for IT practitioners to foster online communication and collaboration. As a full-stack developer, I successfully contributed to this front-end and back-end separation project, honing my skills and gaining invaluable experience.
 
-## Depolyed Demo Website (Fullstack Version)
-http://three.itireland.works/
-
 ## Key Features:
 
 User Registration and Authentication: Implemented a secure and user-friendly registration and login system using Java, Spring Boot, Spring Data JPA, and Spring Security. Ensured seamless user experience and robust security measures.
