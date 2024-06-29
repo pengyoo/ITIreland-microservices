@@ -20,5 +20,5 @@ By actively contributing to IT Ireland, I gained hands-on experience in the full
 Overall, IT Ireland is a testament to my ability to deliver scalable and user-centric solutions while collaborating effectively within a development team.
 
 ## Contact Me
-Linkedin: https://www.linkedin.com/in/pengyu-hugo
+Linkedin: https://www.linkedin.com/in/pengyoo
 Email: yp1990@gmail.com
