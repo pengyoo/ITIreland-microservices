@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: itireland-gateway
+  namespace: itireland
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`magnet.local`)
+      kind: Rule
+      services:
+        - name: itireland-gateway
+          port: 8080
+  tls:
+    secretName: magnet-tls

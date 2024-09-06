@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: itireland-gateway
+  namespace: itireland
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: itireland-gateway
+  template:
+    metadata:
+      labels:
+        app: itireland-gateway
+    spec:
+      containers:
+        - name: itireland-gateway
+          image: ypydd88/itireland-gateway:latest
+          ports:
+            - containerPort: 8080
+
