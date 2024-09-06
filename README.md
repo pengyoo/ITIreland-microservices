@@ -1,9 +1,6 @@
 # IT Ireland: A Twitter-like Social Media Website for IT Practitioners
 IT Ireland is a social media platform developed specifically for IT practitioners to foster online communication and collaboration. As a full-stack developer, I successfully contributed to this front-end and back-end separation project, honing my skills and gaining invaluable experience.
 
-## Depolyed Demo Website (Fullstack Version)
-http://three.itireland.works/
-
 ## Key Features:
 
 User Registration and Authentication: Implemented a secure and user-friendly registration and login system using Java, Spring Boot, Spring Data JPA, and Spring Security. Ensured seamless user experience and robust security measures.
@@ -23,5 +20,5 @@ By actively contributing to IT Ireland, I gained hands-on experience in the full
 Overall, IT Ireland is a testament to my ability to deliver scalable and user-centric solutions while collaborating effectively within a development team.
 
 ## Contact Me
-Linkedin: https://www.linkedin.com/in/pengyu-hugo
+Linkedin: https://www.linkedin.com/in/pengyoo
 Email: yp1990@gmail.com
