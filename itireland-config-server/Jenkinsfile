@@ -76,7 +76,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/pengyoo/Magnet.git'
+                git branch: 'itireland-config', url: 'https://github.com/pengyoo/ITIreland-microservices.git'
             }
         }
 
